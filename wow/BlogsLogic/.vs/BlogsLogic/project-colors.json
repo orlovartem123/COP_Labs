@@ -1,0 +1,21 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "7188d778-351e-49e1-bb22-a0409e1727b0": {
+      "ProjectGuid": "7188d778-351e-49e1-bb22-a0409e1727b0",
+      "DisplayName": "BlogsPlaceView",
+      "ColorIndex": 0
+    },
+    "74da23a8-e9e3-4e5d-b534-5b9d83d37beb": {
+      "ProjectGuid": "74da23a8-e9e3-4e5d-b534-5b9d83d37beb",
+      "DisplayName": "BlogsPlaceDatabaseImplement",
+      "ColorIndex": 1
+    },
+    "26b07a18-a27a-44b6-a6e4-c77bb25bafdb": {
+      "ProjectGuid": "26b07a18-a27a-44b6-a6e4-c77bb25bafdb",
+      "DisplayName": "BlogsPlaceListImplement",
+      "ColorIndex": 2
+    }
+  },
+  "NextColorIndex": 3
+}
