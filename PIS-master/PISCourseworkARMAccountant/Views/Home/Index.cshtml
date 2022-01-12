@@ -2,13 +2,20 @@
     ViewData["Title"] = "Библиотека";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Добро пожаловать</h1>
-    @if (Program.Accountant != null)
-    {
-        <p>
-            <strong> Модуль «АРМ бухгалтера по учету работы библиотекарей» </strong><br />
-            Бухгалтер ведет учет работы библиотекарей и начисляет им заработную плату в соответствии с комиссионными.
-        </p>
-    }
-</div>
+    <div class="text-center">
+        <h1 class="display-4">Добро пожаловать</h1>
+        @if (Program.Accountant != null)
+        {
+            <p>
+                <strong> Модуль «АРМ бухгалтера по учету работы библиотекарей» </strong><br />
+            </p>
+            @if (Program.Accountant != null)
+            {
+                <hr />
+                @Program.Accountant.Role
+                <br />
+                @Program.Accountant.FIO
+                <hr />
+            }
+        }
+    </div>

@@ -48,7 +48,7 @@ namespace PISCourseworkARMLibrarian.Controllers
                 {
                     Email = user.Email,
                 }).FirstOrDefault();
-                if (validation.userCheck(user, userView) != "")
+                if (validation.userCheck(user, userView) != "") //должно быть !=
                 {
                     ModelState.AddModelError("", validation.userCheck(user, userView));
                     return View();

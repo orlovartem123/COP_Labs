@@ -15,7 +15,6 @@
     <_ContentIncludedByDefault Remove="Views\Accountant\ListOfLibrarian.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Accountant\Report.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Accountant\Salary.cshtml" />
-    <_ContentIncludedByDefault Remove="wwwroot\css\back2.jpg" />
   </ItemGroup>
 
   <ItemGroup>

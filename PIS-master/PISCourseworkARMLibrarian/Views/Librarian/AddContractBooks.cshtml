@@ -40,7 +40,7 @@
     <div class="form-group row">
         <div class="col-sm-4">
             <input type="hidden" value="@ViewBag.Email" name="Email" />
-            <input type="submit" value="найти" class="btn btn-dark btn-sm" />
+            <input type="submit" value="Найти" class="btn btn-dark btn-sm" />
             <hr />
         </div>
     </div>
@@ -87,7 +87,7 @@
         <br />
         <div class="form-group row">
             <div class="col-sm-8">
-                <input type="submit" value="изменить дату возврата" class="btn btn-dark btn-sm" />
+                <input type="submit" value="Изменить дату возврата" class="btn btn-dark btn-sm" />
             </div>
         </div>
         @Html.ValidationSummary(true, "", new { @style = "color: black" })
@@ -124,7 +124,7 @@
                     <td>@book.Year</td>
                     <td>@genre.Price</td>
                     <td>@book.Status</td>
-                    <td>  @Html.ActionLink("добавить", "AddContractBooks", new { Email = ViewBag.FIO, id = @book.Id }, new { @class = "btn btn-dark" })</td>
+                    <td>  @Html.ActionLink("Добавить", "AddContractBooks", new { Email = ViewBag.FIO, id = @book.Id }, new { @class = "btn btn-dark" })</td>
                 </tr>
             }
         }

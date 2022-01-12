@@ -157,7 +157,8 @@ namespace PISBusinessLogic.BusinessLogic
             {
                 if (userView.Role == Roles.Библиотекарь || userView.Role == Roles.Бухгалтер)
                 {
-                    if (user.Password != userView.Password)
+                    var decrypted = _enc.Decrypt(userView.Password, userView.Email);
+                    if (user.Password != decrypted)
                     {
                         return "Вы ввели неверный пароль";
                     }

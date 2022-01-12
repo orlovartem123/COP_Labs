@@ -13,7 +13,7 @@
     <div class="col-sm-8">
         Найти по ФИО:
         @Html.TextBoxFor(x => x.FIO)
-        <input type="submit" value="найти" class="btn btn-dark btn-sm" />
+        <input type="submit" value="Найти" class="btn btn-dark btn-sm" />
     </div>
 </form>
 @if (ViewBag.Users != null)
@@ -40,13 +40,13 @@
                 <td>@user.FIO</td>
                 <td>@user.Email</td>
                 <td>
-                    <a class="btn btn-dark btn-sm" href="/Readers/AddLibraryCard/@user.Id">просмотреть читательский билет</a>
+                    <a class="btn btn-dark btn-sm" href="/Readers/AddLibraryCard/@user.Id">Просмотреть читательский билет</a>
                 </td>
                 <td>
-                    @Html.ActionLink("продлить билет", "AddLibraryCard", new { id = @user.Id, prolong = true }, new { @class = "btn  btn-dark btn-sm" })
+                    @Html.ActionLink("Продлить билет", "AddLibraryCard", new { id = @user.Id, prolong = true }, new { @class = "btn  btn-dark btn-sm" })
                 </td>
                 <td>
-                    @Html.ActionLink("заключить договор", "AddContractBooks", new { email = @user.Email, id = ViewBag.Create }, new { @class = "btn btn-dark btn-sm" })
+                    @Html.ActionLink("Заключить договор", "AddContractBooks", new { email = @user.Email, id = ViewBag.Create }, new { @class = "btn btn-dark btn-sm" })
                 </td>
             </tr>
         }
@@ -75,7 +75,7 @@
                 <td>@user2.FIO</td>
                 <td>@user2.Email</td>
                 <td>
-                    <a class="btn btn-dark btn-sm" href="/Readers/AddLibraryCard/@user2.Id">создать билет</a>
+                    <a class="btn btn-dark btn-sm" href="/Readers/AddLibraryCard/@user2.Id">Создать билет</a>
                 </td>
             </tr>
         }
@@ -103,10 +103,10 @@
                 <td>@user2.FIO</td>
                 <td>@user2.Email</td>
                 <td>
-                    <a class="btn btn-dark btn-sm" href="/Readers/AddLibraryCard/@user2.Id">просмотреть читательский билет</a>
+                    <a class="btn btn-dark btn-sm" href="/Readers/AddLibraryCard/@user2.Id">Просмотреть читательский билет</a>
                 </td>
                 <td>
-                    @Html.ActionLink("продлить билет", "AddLibraryCard", new { id = @user2.Id, prolong = true }, new { @class = "btn btn-dark btn-sm" })
+                    @Html.ActionLink("Продлить билет", "AddLibraryCard", new { id = @user2.Id, prolong = true }, new { @class = "btn btn-dark btn-sm" })
                 </td>
             </tr>
         }

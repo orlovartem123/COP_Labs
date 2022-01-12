@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <_ContentIncludedByDefault Remove="wwwroot\css\back2.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="wwwroot\Export1\" />
   </ItemGroup>
 
@@ -72,10 +68,6 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Update="Views\_ViewStart.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\css\back2.jpg">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

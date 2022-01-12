@@ -232,26 +232,26 @@ namespace PISCourseworkARMLibrarian.Controllers.Librarian
         {
             var books = _book.Read(null);
             var cards = _libraryCard.Read(null);
-            foreach (var el in books)
-            {
-                if (Convert.ToInt32(el.Year) <= (DateTime.Now.Year - 10))
-                {
-                    _book.Delete(new BookBindingModel
-                    {
-                        Id = el.Id
-                    });
-                }
-            }
-            foreach (var el in cards)
-            {
-                if (Convert.ToInt32(el.Year) <= (DateTime.Now.Year - 5))
-                {
-                    _libraryCard.Delete(new LibraryCardBindingModel
-                    {
-                        Id = el.Id
-                    });
-                }
-            }
+            //foreach (var el in books)
+            //{
+            //    if (Convert.ToInt32(el.Year) <= (DateTime.Now.Year - 10))
+            //    {
+            //        _book.Delete(new BookBindingModel
+            //        {
+            //            Id = el.Id
+            //        });
+            //    }
+            //}
+            //foreach (var el in cards)
+            //{
+            //    if (Convert.ToInt32(el.Year) <= (DateTime.Now.Year - 5))
+            //    {
+            //        _libraryCard.Delete(new LibraryCardBindingModel
+            //        {
+            //            Id = el.Id
+            //        });
+            //    }
+            //}
             var path = _archive.ArchiveOutdated(1);
             var fileName = Path.GetFileName(path);
             return File("Export/" + fileName, "text/json", fileName);
