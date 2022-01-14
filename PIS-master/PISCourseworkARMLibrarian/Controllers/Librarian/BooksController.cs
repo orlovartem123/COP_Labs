@@ -86,7 +86,7 @@ namespace PISCourseworkARMLibrarian.Controllers.Librarian
                 {
                     Id = GenreId
                 }).FirstOrDefault();
-                decimal percent = decimal.Parse(Percent);
+                decimal percent = decimal.Parse(Percent.Replace('.',','));
                 decimal price = decimal.Parse(genre.Price.ToString());
                 _genre.CreateOrUpdate(new GenreBindingModel
                 {

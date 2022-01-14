@@ -67,7 +67,7 @@ namespace PISCourseworkARMReader.Controllers.Reader
                         books.Add(book);
                     }
                 }
-            }        
+            }
             ViewBag.Books = books;
             return View("Views/Reader/ListOfBookings.cshtml");
         }
@@ -78,24 +78,30 @@ namespace PISCourseworkARMReader.Controllers.Reader
         }
 
         [HttpPost]
-        public ActionResult AddBooking( BookingBindingModel model)
+        public ActionResult AddBooking(BookingBindingModel model)
         {
             ViewBag.BookId = model.Id;
-            if (validation.bookingValidation(model)!="")
+            if (validation.bookingValidation(model) != "")
             {
                 ViewBag.Booking = _booking.Read(null);
                 ModelState.AddModelError("", validation.bookingValidation(model));
                 return View("Views/Reader/AddBooking.cshtml");
             }
-           
+
             var libraryCard = _libraryCard.Read(new LibraryCardBindingModel
             {
                 UserId = Program.Reader.Id
             }).FirstOrDefault();
+            if (libraryCard == null)
+            {
+                ViewBag.Booking = _booking.Read(null);
+                ModelState.AddModelError("", "Необходимо завести читательский билет");
+                return View("Views/Reader/AddBooking.cshtml");
+            }
             if (Convert.ToInt32(libraryCard.Year) < DateTime.Now.Year)
             {
                 ViewBag.Booking = _booking.Read(null);
-                ModelState.AddModelError("","Ваш читательский билет просрочен, обратитесь в библиотеку");
+                ModelState.AddModelError("", "Ваш читательский билет просрочен, обратитесь в библиотеку");
                 return View("Views/Reader/AddBooking.cshtml");
             }
             _booking.CreateOrUpdate(new BookingBindingModel

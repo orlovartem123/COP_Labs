@@ -51,8 +51,8 @@ namespace PISDatabaseImplement.Implements
                                     }
                                 }
                             }
-                            context.ContractBooks.RemoveRange(list);                        
-                            context.SaveChanges();                           
+                            context.ContractBooks.RemoveRange(list);
+                            context.SaveChanges();
                             var groupBooks = model.ContractBooks
                               .GroupBy(rec => rec.BookId)
                               .Select(rec => new
@@ -81,6 +81,8 @@ namespace PISDatabaseImplement.Implements
                             element.DateReturn = model.DateReturn;
                             element.Fine = model.Fine;
                             element.ContractStatus = model.ContractStatus;
+                            element.BookingId = context.Bookings.FirstOrDefault(rec => rec.LibraryCardId == model.LibraryCardId).Id;
+                            element.BookId = context.Bookings.FirstOrDefault(rec => rec.LibraryCardId == model.LibraryCardId).BookId;
                             context.Contracts.Add(element);
                             context.SaveChanges();
                             var groupBooks = model.ContractBooks
@@ -102,7 +104,7 @@ namespace PISDatabaseImplement.Implements
                         }
                         transaction.Commit();
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         transaction.Rollback();
                         throw;
@@ -141,7 +143,7 @@ namespace PISDatabaseImplement.Implements
                     LibrarianId = rec.LibrarianId,
                     LibrarianFIO = rec.Librarian.FIO,
                     DateReturn = rec.DateReturn,
-                    ContractStatus=rec.ContractStatus,
+                    ContractStatus = rec.ContractStatus,
                     Fine = rec.Fine,
                     Sum = rec.Sum,
                     Date = rec.Date,

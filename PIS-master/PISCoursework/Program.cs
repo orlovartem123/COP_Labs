@@ -25,7 +25,8 @@ namespace PISCoursework
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseKestrel().UseUrls("http://localhost:5000", "http://192.168.43.2:5000")
+.UseIISIntegration().UseStartup<Startup>();
                 });
     }
 }

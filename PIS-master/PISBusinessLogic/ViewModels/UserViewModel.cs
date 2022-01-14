@@ -11,7 +11,9 @@ namespace PISBusinessLogic.ViewModels
     {
         public int Id { get; set; }
         public string FIO { get; set; }
-        public string Salary { get; set; }
+
+        private string _salary;
+        public string Salary { get => _salary ?? "0"; set => _salary = value; }
         [DataType(DataType.Password)]
         public string Password { get; set; }
         public string Email { get; set; }

@@ -54,9 +54,9 @@ namespace PISCourseworkARMAccountant.Controllers
                 ModelState.AddModelError("", "Выберите библиотекаря и дату");
                 return View("Views/Accountant/ListContract.cshtml");
             }
-            
+
         }
-        
+
         public ActionResult ChangeCommission(int Id, string ComissionPercent)
         {
 
@@ -67,13 +67,13 @@ namespace PISCourseworkARMAccountant.Controllers
                 {
                     Id = Id
                 }).FirstOrDefault();
-                decimal percent = decimal.Parse(ComissionPercent)/10000;           
-                decimal salary = decimal.Parse(user.Salary.ToString());
+                decimal percent = decimal.Parse(ComissionPercent.Replace('.', ',')) / 10000;
+                decimal salary = 15; //decimal.Parse(user.Salary.ToString());
                 _user.CreateOrUpdate(new UserBindingModel
                 {
                     Id = Id,
                     FIO = user.FIO,
-                    Password=user.Password,
+                    Password = user.Password,
                     Email = user.Email,
                     Salary = user.Salary,
                     Comission = (Math.Round(Convert.ToDouble(salary * percent), 2)).ToString(),
@@ -100,7 +100,7 @@ namespace PISCourseworkARMAccountant.Controllers
                 {
                     if (us.Role == Roles.Библиотекарь)
                     {
-                        decimal percent = decimal.Parse(ComissionPercentAll) /10000 ;
+                        decimal percent = decimal.Parse(ComissionPercentAll) / 10000;
                         decimal salary = decimal.Parse(us.Salary.ToString());
                         _user.CreateOrUpdate(new UserBindingModel
                         {
@@ -125,7 +125,7 @@ namespace PISCourseworkARMAccountant.Controllers
             }
         }
         public ActionResult ListOfLibrarian(UserBindingModel model)
-        {        
+        {
             var user = _user.Read(null);
             List<UserViewModel> users = new List<UserViewModel>();
             foreach (var us in user)
