@@ -17,6 +17,7 @@ namespace PISDatabaseimplements.Models
         public Status Status { get; set; }
         public int GenreId { get; set; }
         public virtual Genre Genre { get; set; }
-
+        public int Interes { get; set; }
+        public DateTime InteresUpdateDate { get; set; }
     }
 }

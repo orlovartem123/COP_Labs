@@ -183,7 +183,7 @@ namespace PISBusinessLogic.BusinessLogic
                     }));
                     docBody.AppendChild(CreateParagraph(new WordParagraph
                     {
-                        Texts = new List<string> { "Главный бухгалтер: Ефимова М.М." },
+                        Texts = new List<string> { "Главный бухгалтер: Журавлев А.Ю." },
                         TextProperties = new WordParagraphProperties
                         {
                             Bold = false,

@@ -313,7 +313,7 @@ namespace PISCourseworkARMLibrarian.Controllers.Librarian
             if (type == 3)
             {
                 ViewBag.Genres = _genre.Read(null);
-                ViewBag.Books = GetFavoriteCategories();
+                ViewBag.Books = _book.GetTop10Books();//GetFavoriteCategories();
                 return View("Views/Librarian/Books.cshtml");
             }
             return View("Views/Librarian/Books.cshtml");

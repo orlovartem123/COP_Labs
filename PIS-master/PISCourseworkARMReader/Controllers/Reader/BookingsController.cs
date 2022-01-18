@@ -4,6 +4,7 @@ using PISBusinessLogic.BindingModels;
 using PISBusinessLogic.BusinessLogic;
 using PISBusinessLogic.Interfaces;
 using PISBusinessLogic.ViewModels;
+using PISDatabaseImplement.Implements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +46,7 @@ namespace PISCourseworkARMReader.Controllers.Reader
             {
                 if (booking.DateTo >= DateTime.Now)
                 {
-                    if (booking.LibraryCardId == card.Id)
+                    if (card != null && booking.LibraryCardId == card.Id)
                     {
                         bookings.Add(booking);
                     }
@@ -127,6 +128,11 @@ namespace PISCourseworkARMReader.Controllers.Reader
                     Name = book.Name,
                     Status = Status.Забронирована
                 });
+            }
+            else
+            {
+                WishListBookLogic.AddBookToWishList(book.Id, Program.Reader.Id);
+                _book.UpdateInteres(book.Id);
             }
             return RedirectToAction("ListOfBookings");
         }

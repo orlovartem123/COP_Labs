@@ -123,7 +123,7 @@ namespace PISDatabaseImplement.Implements
                     var payments = new List<Payment>();
                     using (var db = new DatabaseContext())
                     {
-                        payments = db.Payments.Include(x => x.Librarian).Where(x => Convert.ToInt32(x.Date.Year) < (DateTime.Now.Year)).Select(CreatePayment).ToList();
+                        payments = db.Payments.Include(x => x.Librarian).Select(CreatePayment).ToList();
                     }
 
                     DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(List<Payment>));

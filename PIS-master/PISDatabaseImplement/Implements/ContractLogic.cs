@@ -83,6 +83,7 @@ namespace PISDatabaseImplement.Implements
                             element.ContractStatus = model.ContractStatus;
                             element.BookingId = context.Bookings.FirstOrDefault(rec => rec.LibraryCardId == model.LibraryCardId).Id;
                             element.BookId = context.Bookings.FirstOrDefault(rec => rec.LibraryCardId == model.LibraryCardId).BookId;
+
                             context.Contracts.Add(element);
                             context.SaveChanges();
                             var groupBooks = model.ContractBooks
@@ -97,6 +98,7 @@ namespace PISDatabaseImplement.Implements
                                 context.ContractBooks.Add(new ContractBook
                                 {
                                     ContractId = element.Id,
+                                    GenreId = context.Books.FirstOrDefault(rec => rec.Id == element.BookId).GenreId,
                                     BookId = groupBook.BookId
                                 });
                                 context.SaveChanges();

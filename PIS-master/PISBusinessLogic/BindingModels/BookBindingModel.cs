@@ -23,5 +23,7 @@ namespace PISBusinessLogic.BindingModels
         public Status Status { get; set; }
         [DataMember]
         public int GenreId { get; set; }
+        [DataMember]
+        public int Interes { get; set; }
     }
 }

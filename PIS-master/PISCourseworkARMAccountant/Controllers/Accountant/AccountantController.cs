@@ -68,7 +68,7 @@ namespace PISCourseworkARMAccountant.Controllers
                     Id = Id
                 }).FirstOrDefault();
                 decimal percent = decimal.Parse(ComissionPercent.Replace('.', ',')) / 10000;
-                decimal salary = 15; //decimal.Parse(user.Salary.ToString());
+                decimal salary =decimal.Parse(user.Salary.ToString());
                 _user.CreateOrUpdate(new UserBindingModel
                 {
                     Id = Id,
@@ -100,7 +100,7 @@ namespace PISCourseworkARMAccountant.Controllers
                 {
                     if (us.Role == Roles.Библиотекарь)
                     {
-                        decimal percent = decimal.Parse(ComissionPercentAll) / 10000;
+                        decimal percent = decimal.Parse(ComissionPercentAll.Replace('.', ',')) / 10000;
                         decimal salary = decimal.Parse(us.Salary.ToString());
                         _user.CreateOrUpdate(new UserBindingModel
                         {

@@ -1,0 +1,33 @@
+﻿@using PISBusinessLogic.ViewModels;
+
+@model List<WishListBookViewModel>
+
+@{
+    ViewData["Title"] = "Список желаний";
+}
+<div class="text-center text-black-50">
+    <h1>Список желаний</h1>
+</div>
+<hr />
+    <table class="table">
+        <tr>
+            <td>Название</td>
+            <td>Автор</td>
+            <td>Жанр</td>
+            <td>Издательство</td>
+            <td>Год издания</td>
+            <td>Цена проката, руб./день</td>
+        </tr>
+            @foreach (var book in @Model)
+            {
+
+                    <tr>
+                        <td>@book.BookName</td>
+                        <td>@book.Author</td>
+                        <td>@book.GenreName</td>
+                        <td>@book.PublishingHouse</td>
+                        <td>@book.Year</td>
+                        <td>@book.Price</td>
+                    </tr>
+            }
+    </table>

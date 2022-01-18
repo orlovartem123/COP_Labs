@@ -233,6 +233,8 @@ namespace PISCourseworkARMLibrarian.Controllers
             {
                 LibraryCardId = libraryCard
             });
+
+            
             List<BookViewModel> freeBooks = new List<BookViewModel>();
             foreach (var booking in bookings)
             {
@@ -267,6 +269,11 @@ namespace PISCourseworkARMLibrarian.Controllers
                     freeBooks.Add(book);
             }
             ViewBag.Books = freeBooks;
+            if (bookings == null || !bookings.Any())
+            {
+                ModelState.AddModelError("", "У пользователя нет забронированных книг");
+                return View("Views/Librarian/AddContractBooks.cshtml");
+            }
             if ((model.Author != null || model.GenreId != 0 || model.Name != null) && (id == 0 || id == -1))
             {
                 return BookSearch(model, libraryCard);
@@ -323,7 +330,7 @@ namespace PISCourseworkARMLibrarian.Controllers
                     Year = book.Year,
                     Status = Status.Выдана
                 });
-                var contract = _contract.Read(null).OrderBy(x => x.Id).Last();
+                var contract = _contract.Read(null).OrderBy(x => x.Id)?.Last();
 
                 contractBooks.Add(new ContractBookBindingModel
                 {
@@ -442,7 +449,7 @@ namespace PISCourseworkARMLibrarian.Controllers
             ViewBag.Genres = _genre.Read(null);
             var Contracts = _contract.Read(null);
             var Users = _user.Read(null);
-            double fine = 5;
+            double fine = 0.05;
 
             foreach (var contract in Contracts)
             {
@@ -458,9 +465,9 @@ namespace PISCourseworkARMLibrarian.Controllers
                         DateReturn = contract.DateReturn,
                         LibrarianId = contract.LibrarianId,
                         LibraryCardId = contract.LibraryCardId,
-                        Sum = contract.Sum,
+                        Sum = contract.Sum + ((contract.DateReturn - contract.Date).Days * contract.Sum * fine),
                         ContractBooks = list,
-                        Fine = ((fine * date) / 100) * contract.Sum
+                        Fine = fine
                     });
                 }
             }

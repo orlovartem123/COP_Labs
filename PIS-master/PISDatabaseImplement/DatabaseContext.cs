@@ -12,7 +12,7 @@ using System.Web;
 namespace PISDatabaseImplements
 {
     public class DatabaseContext : DbContext
-    {     
+    {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var builder = new ConfigurationBuilder();
@@ -30,7 +30,7 @@ namespace PISDatabaseImplements
                 optionsBuilder.UseNpgsql(connectionString);
             }
             base.OnConfiguring(optionsBuilder);
-        }     
+        }
         public DbSet<Book> Books { get; set; }
         public DbSet<Contract> Contracts { get; set; }
         public DbSet<ContractBook> ContractBooks { get; set; }
@@ -39,6 +39,7 @@ namespace PISDatabaseImplements
         public DbSet<LibraryCard> LibraryCards { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<WishListBook> WishListBooks { get; set; }
     }
 
 }

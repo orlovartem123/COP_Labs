@@ -6,6 +6,7 @@ using PISBusinessLogic.Enums;
 using PISBusinessLogic.HelperModels;
 using PISBusinessLogic.Interfaces;
 using PISBusinessLogic.ViewModels;
+using PISDatabaseImplement.Implements;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,7 +25,8 @@ namespace PISCourseworkARMReader.Controllers.Reader
         private readonly IBookingLogic _booking;
         private Validation validation;
         private readonly ReportLogic _report;
-        public BooksReaderController(IBookLogic book, IGenreLogic genre, IUserLogic user, ILibraryCardLogic libraryCard, IContractLogic contract, ReportLogic report, IBookingLogic booking)
+        public BooksReaderController(IBookLogic book, IGenreLogic genre, IUserLogic user,
+            ILibraryCardLogic libraryCard, IContractLogic contract, ReportLogic report, IBookingLogic booking)
         {
             _book = book;
             _genre = genre;
@@ -46,7 +48,24 @@ namespace PISCourseworkARMReader.Controllers.Reader
             });
             return BookSearch(model);
 
-        }        
+        }
+
+        [HttpGet]
+        public ActionResult ListWishListBooks()
+        {
+            var books = WishListBookLogic.GetWishListBookViewModels(Program.Reader.Id);
+
+            return View("Views/Reader/ListWishListBooks.cshtml", books);
+        }
+
+        [HttpGet]
+        public ActionResult ListTop10Books()
+        {
+            var books = _book.GetTop10Books();
+
+            return View("Views/Reader/ListTop10Books.cshtml", books);
+        }
+
         public ActionResult BookSearch(BookBindingModel model)
         {
             ViewBag.Genres = _genre.Read(null);
@@ -78,7 +97,7 @@ namespace PISCourseworkARMReader.Controllers.Reader
                         Status = Status.Свободна
                     });
                 }
-                if (booking.LibraryCardId == card.Id)
+                if (card != null && booking.LibraryCardId == card.Id)
                 {
                     bookings.Add(booking);
                 }
@@ -92,7 +111,7 @@ namespace PISCourseworkARMReader.Controllers.Reader
                         books.Add(book);
                     }
                 }
-            }          
+            }
             freeBooks = freebooks;
             foreach (var b in books)
             {
@@ -225,6 +244,6 @@ namespace PISCourseworkARMReader.Controllers.Reader
                 return View("Views/Reader/ListOfBooksReader.cshtml");
             }
             return View("Views/Reader/ListOfBooksReader.cshtml");
-        }         
+        }
     }
 }

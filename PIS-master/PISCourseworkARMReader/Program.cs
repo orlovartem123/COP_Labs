@@ -22,7 +22,8 @@ namespace PISCourseworkARMReader
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseKestrel().UseUrls("http://localhost:5004", "http://192.168.1.112:5004")
+ .UseIISIntegration().UseStartup<Startup>();
                 });
     }
 }

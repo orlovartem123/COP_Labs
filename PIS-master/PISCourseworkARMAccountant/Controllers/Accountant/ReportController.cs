@@ -228,8 +228,8 @@ namespace PISCourseworkARMAccountant.Controllers.Accountant
         }
         public ActionResult List()
         {
-            _report.SaveListToWordFile(exportDirectory + "\\" + "список.docx");
-            var fileName = Path.GetFileName(exportDirectory + "\\" + "список.docx");
+            _report.SaveListToWordFile(exportDirectory + "\\" + "Список всех библиотекарей.docx");
+            var fileName = Path.GetFileName(exportDirectory + "\\" + "Список всех библиотекарей.docx");
             return File("Export2/" + fileName, "application/xml", fileName);
 
         }
@@ -247,16 +247,16 @@ namespace PISCourseworkARMAccountant.Controllers.Accountant
         public IActionResult BackUpToJsonAsync()
         {
             var payments = _payment.Read(null);
-            foreach (var el in payments)
-            {
-                if (Convert.ToInt32(el.Date.Year) < (DateTime.Now.Year))
-                {
-                    _payment.Delete(new PaymentBindingModel
-                    {
-                        Id = el.Id
-                    });
-                }
-            }
+            //foreach (var el in payments)
+            //{
+            //    if (Convert.ToInt32(el.Date.Year) < (DateTime.Now.Year))
+            //    {
+            //        _payment.Delete(new PaymentBindingModel
+            //        {
+            //            Id = el.Id
+            //        });
+            //    }
+            //}
             var path = _archive.ArchiveOutdated(2);
             var fileName = Path.GetFileName(path);
             return File("Export2/" + fileName, "text/json", fileName);

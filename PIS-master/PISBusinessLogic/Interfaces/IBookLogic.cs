@@ -11,5 +11,7 @@ namespace PISBusinessLogic.Interfaces
         List<BookViewModel> Read(BookBindingModel model);
         void CreateOrUpdate(BookBindingModel model);
         void Delete(BookBindingModel model);
+        void UpdateInteres(int bookId);
+        List<BookViewModel> GetTop10Books();
     }
 }
