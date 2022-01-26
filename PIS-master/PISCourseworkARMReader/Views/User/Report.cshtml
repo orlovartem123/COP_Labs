@@ -1,5 +1,4 @@
-﻿@model PISBusinessLogic.BindingModels.BookBindingModel
-@{
+﻿@{
     ViewData["Title"] = "Перекрестный отчет";
     var months = new List<string> { "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" };
 }
@@ -25,9 +24,9 @@
         <div class="col-sm-4">
             <select class="custom-select" name="GenreId" id="GenreId">
                 <option value="" selected disabled hidden>Выберите месяц</option>
-                @foreach (var genre in months)
+                @foreach (var mon in months)
                 {
-                    <option value="genre">@genre</option>
+                    <option value="@mon">@mon</option>
                 }
             </select>
         </div>

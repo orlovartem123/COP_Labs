@@ -20,13 +20,21 @@ namespace PISCourseworkARMReader.Controllers
         private readonly IBookLogic _bookLogic;
         private readonly IGenreLogic _genreLogic;
         private readonly IContractLogic _contractLogic;
+        private readonly ReportLogic _logic;
         private readonly EncryptionLogic _enc;
         private readonly Validation validation;
 
-        public UserController(IUserLogic user, IBookLogic bookLogic, IGenreLogic genreLogic, IContractLogic contractLogic, EncryptionLogic enc)
+        public UserController(
+            IUserLogic user,
+            IBookLogic bookLogic,
+            IGenreLogic genreLogic,
+            IContractLogic contractLogic,
+            ReportLogic logic,
+            EncryptionLogic enc)
         {
             _user = user;
             _enc = enc;
+            _logic = logic;
             _genreLogic = genreLogic;
             _contractLogic = contractLogic;
             _bookLogic = bookLogic;
@@ -50,9 +58,13 @@ namespace PISCourseworkARMReader.Controllers
         }
 
         [HttpPost]
-        public ActionResult Report()
+        public ActionResult Report(dynamic model)
         {
-
+            var reportModel = (dynamic)_contractLogic
+                .Read(null).Where(x => x.Id == model.ContractId && x.Date.Month == model.Month)
+                .GroupBy(x => x.Date)
+                .ToDictionary(x => x.Key, y => y.ToList());
+            return _logic.SavePerecrest(reportModel);
         }
 
         [HttpPost]
