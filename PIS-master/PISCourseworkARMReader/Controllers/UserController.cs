@@ -18,13 +18,17 @@ namespace PISCourseworkARMReader.Controllers
     {
         private readonly IUserLogic _user;
         private readonly IBookLogic _bookLogic;
+        private readonly IGenreLogic _genreLogic;
+        private readonly IContractLogic _contractLogic;
         private readonly EncryptionLogic _enc;
         private readonly Validation validation;
 
-        public UserController(IUserLogic user, IBookLogic bookLogic, EncryptionLogic enc)
+        public UserController(IUserLogic user, IBookLogic bookLogic, IGenreLogic genreLogic, IContractLogic contractLogic, EncryptionLogic enc)
         {
             _user = user;
             _enc = enc;
+            _genreLogic = genreLogic;
+            _contractLogic = contractLogic;
             _bookLogic = bookLogic;
             validation = new Validation();
         }
@@ -39,8 +43,16 @@ namespace PISCourseworkARMReader.Controllers
 
         public IActionResult Report()
         {
+            ViewBag.Genres = _genreLogic.Read(null);
+            ViewBag.Contracts = _contractLogic.Read(null);
             ViewBag.Books = _bookLogic.Read(null);
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Report()
+        {
+
         }
 
         [HttpPost]

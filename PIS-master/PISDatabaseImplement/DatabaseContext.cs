@@ -23,8 +23,7 @@ namespace PISDatabaseImplements
             // создаем конфигурацию
             var config = builder.Build();
             // получаем строку подключения
-            //string connectionString = config.GetConnectionString("DefaultConnection");
-            var connectionString = "Server=localhost;Port=5432;Database=PIS;Username=postgres;Password=password";
+            var connectionString = "Server=localhost;Port=5432;Database=PIS;Username=postgres;";
             if (optionsBuilder.IsConfigured == false)
             {
                 optionsBuilder.UseNpgsql(connectionString);

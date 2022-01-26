@@ -2,22 +2,20 @@
 @{
     ViewData["Title"] = "Перекрестный отчет";
     var months = new List<string> { "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" };
-    var contracts = new List<string> { "Договор1", "Договор2", "Договор3", "Договор4" };
-    var rnd=new Random();
 }
 
 <div class="text-center text-black-50">
     <h1>Перекрестный отчет</h1>
 </div>
-<form asp-controller="User" asp-action="CreateReport" method="get">
+<form asp-controller="User" asp-action="Report" method="post">
     <div class="form-group row">
         <label class="col-sm-2 col-form-label">По договору:</label>
         <div class="col-sm-4">
             <select class="custom-select" name="GenreId" id="GenreId">
                 <option value="" selected disabled hidden>Выберите договор</option>
-                @foreach (var genre in contracts)
+                @foreach (var contract in ViewBag.Contracts)
                 {
-                    <option value="genre">@genre</option>
+                    <option value="@contract.Id">@contract.Name</option>
                 }
             </select>
         </div>
@@ -52,17 +50,22 @@
         <td>Цена проката, руб./день</td>
         <td>Статус</td>
     </tr>
-    @foreach (var book in ViewBag.Books)
-    {
+    @foreach (var genre in ViewBag.Genres)
+        {
+            @foreach (var book in ViewBag.Books)
+            {
+                @if (genre.Id == book.GenreId)
+                {
 
-                <tr>
-                    <td>@book.Name</td>
-                    <td>@book.Author</td>
-                    <td>Фантастика</td>
-                    <td>@book.PublishingHouse</td>
-                    <td>@book.Year</td>
-                    <td>@rnd.Next(400, 800).ToString()</td>
-                    <td>@book.Status</td>
-                </tr>
-    }
+                    <tr>
+                        <td>@book.Name</td>
+                        <td>@book.Author</td>
+                        <td>@genre.Name</td>
+                        <td>@book.PublishingHouse</td>
+                        <td>@book.Year</td>
+                        <td>@genre.Price</td>
+                    </tr>
+                }
+            }
+        }
 </table>

@@ -60,6 +60,18 @@ namespace PISBusinessLogic.BusinessLogic
                 contract = model
             });
         }
+
+        public void SavePerecrest(dynamic model)
+        {
+            string title = "Договор №  " + model.Id;
+            SaveToWord.CreateDoc(new WordInfo
+            {
+                FileName = $"{title}.docx",
+                Title = title,
+                Perecrest = model
+            });
+        }
+
         public void SaveContractToWordFile(string fileName, UserViewModel model)
         {
             string title = "Контракт с  " + model.FIO;

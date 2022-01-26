@@ -14,5 +14,6 @@ namespace PISBusinessLogic.HelperModels
         public ContractViewModel contract { get; set; }
         public LibraryCardViewModel libraryCard { get; set; }
         public BookViewModel book { get; set; }
+        public dynamic Perecrest { get; set; }
     }
 }
