@@ -102,8 +102,7 @@ namespace PISCourseworkARMAccountant.Controllers.Accountant
                 return View("Views/Accountant/LeadSalary.cshtml");
             }
         }
-
-        public ActionResult SalaryAll(DateTime date)
+        public ActionResult CheckSalaryAll(DateTime date)
         {
             var pay = _payment.Read(null);
             double sum = 0;
@@ -128,6 +127,10 @@ namespace PISCourseworkARMAccountant.Controllers.Accountant
             ViewBag.Sum = Math.Round(sum, 2);
             ViewBag.Users = _user.Read(null);
             return View("Views/Accountant/Salary.cshtml");
+        }
+        public ActionResult SalaryAll(DateTime date)
+        {
+            return CheckSalaryAll(date);  
         }
     }
 }

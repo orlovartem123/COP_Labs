@@ -22,7 +22,7 @@ namespace PISCourseworkARMLibrarian
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseKestrel().UseUrls("http://localhost:5002", "http://192.168.1.112:5002")
+                    webBuilder.UseKestrel().UseUrls("http://localhost:5002", "http://192.168.234.186:5002")
 .UseIISIntegration().UseStartup<Startup>();
                 });
     }

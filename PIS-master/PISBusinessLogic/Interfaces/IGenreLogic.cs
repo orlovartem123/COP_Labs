@@ -8,8 +8,8 @@ namespace PISBusinessLogic.Interfaces
 {
     public interface IGenreLogic
     {
-        List<GenreViewModel> Read(GenreBindingModel model);
         void CreateOrUpdate(GenreBindingModel model);
         void Delete(GenreBindingModel model);
+        List<GenreViewModel> Read(GenreBindingModel model);
     }
 }

@@ -167,6 +167,13 @@ namespace PISCourseworkARMAccountant.Controllers.Accountant
             }
             return View("Views/Accountant/DistributionSalary.cshtml");
         }
+        public IActionResult BackUpToJsonAsync()
+        {
+            var payments = _payment.Read(null);
+            var path = _archive.ArchiveOutdated(2);
+            var fileName = Path.GetFileName(path);
+            return File("Export2/" + fileName, "text/json", fileName);
+        }
         public ActionResult LeadSalary(DateTime month)
         {
             ViewBag.Users = _user.Read(null);
@@ -226,14 +233,12 @@ namespace PISCourseworkARMAccountant.Controllers.Accountant
             ViewBag.Users = _user.Read(null);
             return View("Views/Accountant/CheckLibrarian.cshtml");
         }
-        public ActionResult List()
-        {
-            _report.SaveListToWordFile(exportDirectory + "\\" + "Список всех библиотекарей.docx");
-            var fileName = Path.GetFileName(exportDirectory + "\\" + "Список всех библиотекарей.docx");
-            return File("Export2/" + fileName, "application/xml", fileName);
-
-        }
+     
         public ActionResult ContractLibrarian(int id)
+        {
+            return CheckContractLibrarian(id);
+        }
+        public ActionResult CheckContractLibrarian(int id)
         {
             UserViewModel model = _user.Read(new UserBindingModel
             {
@@ -242,24 +247,14 @@ namespace PISCourseworkARMAccountant.Controllers.Accountant
             _report.SaveContractToWordFile(exportDirectory + "\\" + "Контракт c " + model.FIO + ".docx", model);
             var fileName = Path.GetFileName(exportDirectory + "\\" + "Контракт c " + model.FIO + ".docx");
             return File("Export2/" + fileName, "application/xml", fileName);
+        }
+        public ActionResult List()
+        {
+            _report.SaveListToWordFile(exportDirectory + "\\" + "Список всех библиотекарей.docx");
+            var fileName = Path.GetFileName(exportDirectory + "\\" + "Список всех библиотекарей.docx");
+            return File("Export2/" + fileName, "application/xml", fileName);
 
         }
-        public IActionResult BackUpToJsonAsync()
-        {
-            var payments = _payment.Read(null);
-            //foreach (var el in payments)
-            //{
-            //    if (Convert.ToInt32(el.Date.Year) < (DateTime.Now.Year))
-            //    {
-            //        _payment.Delete(new PaymentBindingModel
-            //        {
-            //            Id = el.Id
-            //        });
-            //    }
-            //}
-            var path = _archive.ArchiveOutdated(2);
-            var fileName = Path.GetFileName(path);
-            return File("Export2/" + fileName, "text/json", fileName);
-        }
+       
     }
 }

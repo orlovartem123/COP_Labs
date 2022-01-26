@@ -18,7 +18,7 @@
     "PISCourseworkARMLibrarian": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "http://192.168.1.112:5002",
+      "applicationUrl": "http://192.168.234.186:5002",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

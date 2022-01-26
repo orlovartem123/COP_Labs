@@ -69,13 +69,22 @@ namespace PISCourseworkARMLibrarian.Controllers.Librarian
         [HttpGet]
         public ActionResult ListOfBooks(BookBindingModel model)
         {
+            return GetListOfBooks(model);
+        }
+        public ActionResult GetListOfBooks(BookBindingModel model)
+        {
             ViewBag.Genres = _genre.Read(null);
             ViewBag.Books = _book.Read(new BookBindingModel
             {
                 Status = Status.Свободна
             });
             return BookSearch(model);
-
+        }
+        public ActionResult ValidationBookPrice(int GenreId, string Percent)
+        {
+            ViewBag.Genres = _genre.Read(null);
+            ModelState.AddModelError("", "Выберите жанр и/или введите коэффициент изменения");
+            return View("Views/Librarian/BookPrice.cshtml");
         }
         public ActionResult BookPrice(int GenreId, string Percent)
         {
@@ -99,12 +108,10 @@ namespace PISCourseworkARMLibrarian.Controllers.Librarian
             }
             else
             {
-                ViewBag.Genres = _genre.Read(null);
-                ModelState.AddModelError("", "Выберите жанр и/или введите коэффициент изменения");
-                return View("Views/Librarian/BookPrice.cshtml");
+                return ValidationBookPrice(GenreId, Percent);
             }
         }
-        public ActionResult BookSearch(BookBindingModel model)
+        public ActionResult SearchForBooksByAllCriteria(BookBindingModel model)
         {
             ViewBag.Genres = _genre.Read(null);
             var freebooks = _book.Read(null);
@@ -272,6 +279,10 @@ namespace PISCourseworkARMLibrarian.Controllers.Librarian
                 return View("Views/Librarian/ListOfBooks.cshtml");
             }
             return View("Views/Librarian/ListOfBooks.cshtml");
+        }
+        public ActionResult BookSearch(BookBindingModel model)
+        {
+            return SearchForBooksByAllCriteria(model);         
         }
 
         public ActionResult Books(int type)

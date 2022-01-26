@@ -8,8 +8,8 @@ namespace PISBusinessLogic.Interfaces
 {
     public interface ILibraryCardLogic
     {
-        List<LibraryCardViewModel> Read(LibraryCardBindingModel model);
         void CreateOrUpdate(LibraryCardBindingModel model);
         void Delete(LibraryCardBindingModel model);
+        List<LibraryCardViewModel> Read(LibraryCardBindingModel model);
     }
 }

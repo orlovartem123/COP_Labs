@@ -37,7 +37,20 @@ namespace PISCourseworkARMReader.Controllers.Reader
             _booking = booking;
             validation = new Validation();
         }
+        [HttpGet]
+        public ActionResult ListTop10Books()
+        {
+            var books = _book.GetTop10Books();
 
+            return View("Views/Reader/ListTop10Books.cshtml", books);
+        }
+        [HttpGet]
+        public ActionResult ListWishListBooks()
+        {
+            var books = WishListBookLogic.GetWishListBookViewModels(Program.Reader.Id);
+
+            return View("Views/Reader/ListWishListBooks.cshtml", books);
+        }
         [HttpGet]
         public ActionResult ListOfBooksReader(BookBindingModel model)
         {
@@ -49,24 +62,7 @@ namespace PISCourseworkARMReader.Controllers.Reader
             return BookSearch(model);
 
         }
-
-        [HttpGet]
-        public ActionResult ListWishListBooks()
-        {
-            var books = WishListBookLogic.GetWishListBookViewModels(Program.Reader.Id);
-
-            return View("Views/Reader/ListWishListBooks.cshtml", books);
-        }
-
-        [HttpGet]
-        public ActionResult ListTop10Books()
-        {
-            var books = _book.GetTop10Books();
-
-            return View("Views/Reader/ListTop10Books.cshtml", books);
-        }
-
-        public ActionResult BookSearch(BookBindingModel model)
+        public ActionResult BookSearchForAllCriteries(BookBindingModel model)
         {
             ViewBag.Genres = _genre.Read(null);
             var freebooks = _book.Read(null);
@@ -244,6 +240,10 @@ namespace PISCourseworkARMReader.Controllers.Reader
                 return View("Views/Reader/ListOfBooksReader.cshtml");
             }
             return View("Views/Reader/ListOfBooksReader.cshtml");
+        }
+        public ActionResult BookSearch(BookBindingModel model)
+        {
+            return BookSearchForAllCriteries(model);
         }
     }
 }

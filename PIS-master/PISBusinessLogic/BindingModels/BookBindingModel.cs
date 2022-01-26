@@ -16,14 +16,14 @@ namespace PISBusinessLogic.BindingModels
         [DataMember]
         public string Author { get; set; }
         [DataMember]
-        public string PublishingHouse { get; set; }
+        public int GenreId { get; set; }
         [DataMember]
         public string Year { get; set; }
         [DataMember]
-        public Status Status { get; set; }
-        [DataMember]
-        public int GenreId { get; set; }
+        public string PublishingHouse { get; set; } 
         [DataMember]
         public int Interes { get; set; }
+        [DataMember]
+        public Status Status { get; set; }
     }
 }

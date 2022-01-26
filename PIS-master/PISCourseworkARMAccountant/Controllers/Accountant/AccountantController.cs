@@ -26,37 +26,7 @@ namespace PISCourseworkARMAccountant.Controllers
             _report = report;
             validation = new Validation();
         }
-        public ActionResult ListContract(int Id, DateTime month)
-        {
-            if (validation.listContract(Id, month))
-            {
-                int month1 = month.Month;
-                List<ContractViewModel> contracts = new List<ContractViewModel>();
-                var contract = _contract.Read(new ContractBindingModel
-                {
-                    LibrarianId = Id
-                });
-                foreach (var cont in contract)
-                {
-                    if (cont.Date.Month == month1)
-                    {
-                        contracts.Add(cont);
-                    }
-                }
-                contracts.OrderBy(x => x.Date);
-                ViewBag.Contract = contracts;
-                ViewBag.Users = _user.Read(null);
-                return View("Views/Accountant/ListContract.cshtml");
-            }
-            else
-            {
-                ViewBag.Users = _user.Read(null);
-                ModelState.AddModelError("", "Выберите библиотекаря и дату");
-                return View("Views/Accountant/ListContract.cshtml");
-            }
-
-        }
-
+       
         public ActionResult ChangeCommission(int Id, string ComissionPercent)
         {
 
@@ -85,7 +55,7 @@ namespace PISCourseworkARMAccountant.Controllers
             else
             {
                 ViewBag.Users = _user.Read(null);
-                ModelState.AddModelError("", "Выберите библиотекаря или введите процент");
+                ModelState.AddModelError("", "Выберите библиотекаря или процент");
                 return View("Views/Accountant/ChangeCommission.cshtml");
             }
         }
@@ -124,6 +94,36 @@ namespace PISCourseworkARMAccountant.Controllers
                 return View("Views/Accountant/ChangeCommission.cshtml");
             }
         }
+        public ActionResult ListContract(int Id, DateTime month)
+        {
+            if (validation.listContract(Id, month))
+            {
+                int month1 = month.Month;
+                List<ContractViewModel> contracts = new List<ContractViewModel>();
+                var contract = _contract.Read(new ContractBindingModel
+                {
+                    LibrarianId = Id
+                });
+                foreach (var cont in contract)
+                {
+                    if (cont.Date.Month == month1)
+                    {
+                        contracts.Add(cont);
+                    }
+                }
+                contracts.OrderBy(x => x.Date);
+                ViewBag.Contract = contracts;
+                ViewBag.Users = _user.Read(null);
+                return View("Views/Accountant/ListContract.cshtml");
+            }
+            else
+            {
+                ViewBag.Users = _user.Read(null);
+                ModelState.AddModelError("", "Выберите библиотекаря и дату");
+                return View("Views/Accountant/ListContract.cshtml");
+            }
+
+        }
         public ActionResult ListOfLibrarian(UserBindingModel model)
         {
             var user = _user.Read(null);
@@ -147,25 +147,19 @@ namespace PISCourseworkARMAccountant.Controllers
             }
             ViewBag.Users = users;
 
-            //по ФИО
-            if (model.FIO != null && model.Id == null)
+            LibrarianSearchCode(model);
+            LibrarianSearchFIO(model);
+            LibrarianSearchCodeAndFIO(model);
+           
+            if (model.FIO == null && model.Id == null)
             {
-                var Users = _user.Read(new UserBindingModel
-                {
-                    FIO = model.FIO,
-                    Id = model.Id
-                });
-                List<UserViewModel> librarians = new List<UserViewModel>();
-                foreach (var User in Users)
-                {
-                    if (User.Role == Roles.Библиотекарь)
-                    {
-                        librarians.Add(User);
-                    }
-                }
-                ViewBag.Users = librarians;
+                ModelState.AddModelError("", "Необходимо ввести хотя бы один параметр поиска");
                 return View("Views/Accountant/ListOfLibrarian.cshtml");
             }
+            return View(model);
+        }
+        public ActionResult LibrarianSearchCode(UserBindingModel model)
+        {
             //по личному коду
             if (model.FIO == null && model.Id != null)
             {
@@ -185,6 +179,33 @@ namespace PISCourseworkARMAccountant.Controllers
                 ViewBag.Users = librarians;
                 return View("Views/Accountant/ListOfLibrarian.cshtml");
             }
+            return View(model);
+        }
+        public ActionResult LibrarianSearchFIO(UserBindingModel model)
+        {
+            //по ФИО
+            if (model.FIO != null && model.Id == null)
+            {
+                var Users = _user.Read(new UserBindingModel
+                {
+                    FIO = model.FIO,
+                    Id = model.Id
+                });
+                List<UserViewModel> librarians = new List<UserViewModel>();
+                foreach (var User in Users)
+                {
+                    if (User.Role == Roles.Библиотекарь)
+                    {
+                        librarians.Add(User);
+                    }
+                }
+                ViewBag.Users = librarians;
+                return View("Views/Accountant/ListOfLibrarian.cshtml");
+            }
+            return View(model);
+        }
+        public ActionResult LibrarianSearchCodeAndFIO(UserBindingModel model)
+        {
             //по ФИО и личному коду
             if (model.FIO != null && model.Id != null)
             {
@@ -204,12 +225,6 @@ namespace PISCourseworkARMAccountant.Controllers
                     }
                 }
                 ViewBag.Users = librarians;
-                return View("Views/Accountant/ListOfLibrarian.cshtml");
-            }
-
-            if (model.FIO == null && model.Id == null)
-            {
-                ModelState.AddModelError("", "Выберите хотя бы один параметр поиска");
                 return View("Views/Accountant/ListOfLibrarian.cshtml");
             }
             return View(model);

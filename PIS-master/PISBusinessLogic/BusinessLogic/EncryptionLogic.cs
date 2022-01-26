@@ -8,7 +8,7 @@ namespace PISBusinessLogic.BusinessLogic
 {
     public class EncryptionLogic
     {
-        //шифрование
+        //шифровка
         public string Encrypt(string plainText, string password,
                string salt = "Kosher", string hashAlgorithm = "SHA1",
                int passwordIterations = 2, string initialVector = "OFRna73m*aze01xY",
@@ -45,7 +45,6 @@ namespace PISBusinessLogic.BusinessLogic
             symmetricKey.Clear();
             return Convert.ToBase64String(cipherTextBytes);
         }
-        //дешифрование
         public string Decrypt(string cipherText, string password,
                string salt = "Kosher", string hashAlgorithm = "SHA1",
                int passwordIterations = 2, string initialVector = "OFRna73m*aze01xY",

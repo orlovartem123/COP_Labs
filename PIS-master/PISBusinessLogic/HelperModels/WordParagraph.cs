@@ -6,7 +6,7 @@ namespace PISBusinessLogic.HelperModels
 {
     class WordParagraph
     {
-        public List<string> Texts { get; set; }
         public WordParagraphProperties TextProperties { get; set; }
+        public List<string> Texts { get; set; }
     }
 }

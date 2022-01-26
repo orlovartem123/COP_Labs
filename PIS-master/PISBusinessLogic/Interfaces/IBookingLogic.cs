@@ -8,8 +8,8 @@ namespace PISBusinessLogic.Interfaces
 {
     public interface IBookingLogic
     {
-        List<BookingViewModel> Read(BookingBindingModel model);
         void CreateOrUpdate(BookingBindingModel model);
         void Delete(BookingBindingModel model);
+        List<BookingViewModel> Read(BookingBindingModel model);        
     }
 }

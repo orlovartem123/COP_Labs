@@ -8,8 +8,8 @@ namespace PISBusinessLogic.Interfaces
 {
     public interface IContractLogic
     {
-        List<ContractViewModel> Read(ContractBindingModel model);
         void CreateOrUpdate(ContractBindingModel model);
         void Delete(ContractBindingModel model);
+        List<ContractViewModel> Read(ContractBindingModel model);
     }
 }

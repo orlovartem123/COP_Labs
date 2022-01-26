@@ -17,13 +17,15 @@ namespace PISCourseworkARMReader.Controllers
     public class UserController : Controller
     {
         private readonly IUserLogic _user;
+        private readonly IBookLogic _bookLogic;
         private readonly EncryptionLogic _enc;
         private readonly Validation validation;
 
-        public UserController(IUserLogic user, EncryptionLogic enc)
+        public UserController(IUserLogic user, IBookLogic bookLogic, EncryptionLogic enc)
         {
             _user = user;
             _enc = enc;
+            _bookLogic = bookLogic;
             validation = new Validation();
         }
         public IActionResult Login()
@@ -33,6 +35,36 @@ namespace PISCourseworkARMReader.Controllers
         public IActionResult Registration()
         {
             return View();
+        }
+
+        public IActionResult Report()
+        {
+            ViewBag.Books = _bookLogic.Read(null);
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ValidationLogin(UserBindingModel user)
+        {
+            var userView = _user.Read(new UserBindingModel
+            {
+                Email = user.Email,
+            }).FirstOrDefault();
+            if (validation.userCheck(user, userView) != "")
+            {
+                ModelState.AddModelError("", validation.userCheck(user, userView));
+                return View();
+            }
+            if (userView == null)
+            {
+                ModelState.AddModelError("", "Почта или пароль не верны, попробуйте еще раз");
+                return View();
+            }
+            if (userView.Role == Roles.Читатель)
+            {
+                Program.Reader = userView;
+            }
+            return RedirectToAction("Index", "Home");
         }
         [HttpPost]
         public ActionResult Login(UserBindingModel user)
@@ -44,35 +76,12 @@ namespace PISCourseworkARMReader.Controllers
             }
             else
             {
-                var userView = _user.Read(new UserBindingModel
-                {
-                    Email = user.Email,
-                }).FirstOrDefault();
-                if (validation.userCheck(user, userView) != "") //!=
-                {
-                    ModelState.AddModelError("", validation.userCheck(user, userView));
-                    return View();
-                }
-                if (userView == null)
-                {
-                    ModelState.AddModelError("", "Почта или пароль не верны, попробуйте еще раз");
-                    return View();
-                }
-                if (userView.Role == Roles.Читатель)
-                {
-                    Program.Reader = userView;
-                }
-                return RedirectToAction("Index", "Home");
+                return ValidationLogin(user);
             }
         }
         [HttpPost]
-        public ActionResult Registration(UserBindingModel user)
+        public ActionResult ValidationRegistration(UserBindingModel user)
         {
-            if (validation.registrationCheck(user) != "")
-            {
-                ModelState.AddModelError("", validation.registrationCheck(user));
-                return View();
-            }
             var userView = _user.Read(new UserBindingModel
             {
                 Email = user.Email
@@ -90,6 +99,17 @@ namespace PISCourseworkARMReader.Controllers
                 Role = Roles.Читатель
             });
             return RedirectToAction("Login", "User");
+        }
+        [HttpPost]
+        public ActionResult Registration(UserBindingModel user)
+        {
+            if (validation.registrationCheck(user) != "")
+            {
+                ModelState.AddModelError("", validation.registrationCheck(user));
+                return View();
+            }
+            return ValidationRegistration(user);
+
         }
         public IActionResult Logout()
         {

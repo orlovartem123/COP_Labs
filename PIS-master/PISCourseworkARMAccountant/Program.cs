@@ -22,7 +22,7 @@ namespace PISCourseworkARMAccountant
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseKestrel().UseUrls("http://localhost:5003", "http://192.168.130.186:5003")
+                    webBuilder.UseKestrel().UseUrls("http://localhost:5003", "http://192.168.234.186:5003")
  .UseIISIntegration().UseStartup<Startup>();
                 });
     }

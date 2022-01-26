@@ -14,8 +14,9 @@ namespace PISBusinessLogic.BindingModels
         [DataMember]
         public double Sum { get; set; }
         [DataMember]
-        public DateTime Date {get;set;}
-        [DataMember]
         public int UserId { get; set; }
+        [DataMember]
+        public DateTime Date {get;set;}
+
     }
 }

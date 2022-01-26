@@ -35,6 +35,17 @@ namespace PISCourseworkARMReader.Controllers.Reader
             _booking = booking;
             validation = new Validation();
         }
+        public ActionResult PrintContract(int id)
+        {
+
+            ContractViewModel model = _contract.Read(new ContractBindingModel
+            {
+                Id = id
+            }).FirstOrDefault();
+            _report.SaveContractReaderToWordFile(exportDirectory + "\\" + "договор" + id + ".docx", model);
+            var fileName = Path.GetFileName(exportDirectory + "\\" + "договор" + id + ".docx");
+            return File("Export1/" + fileName, "text/json", fileName);
+        }
         [HttpGet]
         public ActionResult ChangeDate(int id, DateTime date)
         {
@@ -78,9 +89,8 @@ namespace PISCourseworkARMReader.Controllers.Reader
             return View("Views/Reader/ChangeDate.cshtml");
         }
         [HttpGet]
-        public ActionResult ListOfContractsReader()
+        public ActionResult GetListOfContractsReader()
         {
-            ViewBag.Genres = _genre.Read(null);
             var Contracts = _contract.Read(null);
             List<ContractViewModel> contracs = new List<ContractViewModel>();
             var card = _libraryCard.Read(new LibraryCardBindingModel
@@ -99,6 +109,12 @@ namespace PISCourseworkARMReader.Controllers.Reader
             return View("Views/Reader/ListOfContractsReader.cshtml");
 
         }
+        [HttpGet]
+        public ActionResult ListOfContractsReader()
+        {
+            ViewBag.Genres = _genre.Read(null);
+            return GetListOfContractsReader();        
+        }
         public List<ContractBookBindingModel> ConvertModels(List<ContractBookViewModel> list)
         {
             if (list == null) return null;
@@ -115,6 +131,7 @@ namespace PISCourseworkARMReader.Controllers.Reader
             }
             return list2;
         }
+      
         public double getSum(List<ContractBookBindingModel> contractBooks, int period)
         {
             double sum = 0;
@@ -138,17 +155,6 @@ namespace PISCourseworkARMReader.Controllers.Reader
             {
                 return 0;
             }
-        }
-        public ActionResult PrintContract(int id)
-        {
-           
-            ContractViewModel model = _contract.Read(new ContractBindingModel
-            {
-                Id = id
-            }).FirstOrDefault();
-            _report.SaveContractReaderToWordFile(exportDirectory + "\\" + "договор" + id + ".docx", model);
-            var fileName = Path.GetFileName(exportDirectory + "\\" + "договор" + id + ".docx");
-            return File("Export1/" + fileName, "text/json", fileName);
         }
     }
 }

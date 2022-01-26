@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PISBusinessLogic", "PISBusi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PISCourseworkARMLibrarian", "PISCourseworkARMLibrarian\PISCourseworkARMLibrarian.csproj", "{E9D057AC-8BA9-42C0-B6EA-F55ED5654380}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PISCourseworkARMReader", "PISCourseworkARMReader\PISCourseworkARMReader.csproj", "{92EDF006-D529-4905-B893-1897D21F4D0B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PISCourseworkARMReader", "PISCourseworkARMReader\PISCourseworkARMReader.csproj", "{92EDF006-D529-4905-B893-1897D21F4D0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PISCourseworkARMAccountant", "PISCourseworkARMAccountant\PISCourseworkARMAccountant.csproj", "{4FE33F0F-1020-4805-9557-2048F1A78C51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PISCourseworkARMAccountant", "PISCourseworkARMAccountant\PISCourseworkARMAccountant.csproj", "{4FE33F0F-1020-4805-9557-2048F1A78C51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

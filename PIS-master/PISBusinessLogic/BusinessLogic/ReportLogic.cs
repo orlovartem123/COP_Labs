@@ -15,18 +15,6 @@ namespace PISBusinessLogic.BusinessLogic
         {
             this._user = user;
         }
-        public void SaveLibraryCardToWordFile(string fileName, LibraryCardViewModel model)
-        {
-            string title = "Читательский билет №" + model.Id;
-            SaveToWord.CreateDoc(new WordInfo
-            {
-                FileName = fileName,
-                Title = title,
-                libraryCard = model,
-                book = null
-
-            });
-        }
         public void SaveBookToWordFile(string fileName, BookViewModel model)
         {
             string title = "Справка о наличии книги № " + model.Id;
@@ -39,7 +27,30 @@ namespace PISBusinessLogic.BusinessLogic
 
             });
         }
-        public void SaveContractReaderToWordFile(string fileName,ContractViewModel model)
+        public void SaveListToWordFile(string fileName)
+        {
+            string title = "Список библиотекарей ";
+            SaveToWord.CreateDoc(new WordInfo
+            {
+                FileName = fileName,
+                Title = title,
+                UserFIO = GetUsers()
+            });
+        }
+        public void SaveLibraryCardToWordFile(string fileName, LibraryCardViewModel model)
+        {
+            string title = "Читательский билет №" + model.Id;
+            SaveToWord.CreateDoc(new WordInfo
+            {
+                FileName = fileName,
+                Title = title,
+                libraryCard = model,
+                book = null
+
+            });
+        }
+
+        public void SaveContractReaderToWordFile(string fileName, ContractViewModel model)
         {
             string title = "Договор №  " + model.Id;
             SaveToWord.CreateDoc(new WordInfo
@@ -56,7 +67,7 @@ namespace PISBusinessLogic.BusinessLogic
             {
                 FileName = fileName,
                 Title = title,
-                user =  model
+                user = model
 
             });
         }
@@ -73,15 +84,6 @@ namespace PISBusinessLogic.BusinessLogic
             }
             return list;
         }
-        public void SaveListToWordFile(string fileName)
-        {
-            string title = "Список библиотекарей ";
-            SaveToWord.CreateDoc(new WordInfo
-            {
-                FileName = fileName,
-                Title = title,
-                UserFIO = GetUsers()
-            });
-        }
+        
     }
 }

@@ -44,13 +44,13 @@ namespace PISCourseworkARMLibrarian.Controllers.Librarian
             contracts.GroupBy(x => x.LibraryCardId);
             return View("Views/Librarian/Reports.cshtml");
         }
-        public IActionResult Charts()
-        {
-            return View("Views/Librarian/Charts.cshtml");
-        }
         public IActionResult DateReport()
         {
             return View("Views/Librarian/DateReport.cshtml");
+        }
+        public IActionResult Charts()
+        {
+            return View("Views/Librarian/Charts.cshtml");
         }
         [HttpPost]
         public ActionResult DateReport(DateTime month)
@@ -228,33 +228,17 @@ namespace PISCourseworkARMLibrarian.Controllers.Librarian
             }
             return View("Views/Librarian/SumByMonths.cshtml");
         }
+        public IActionResult FileBackUpToJsonAsync()
+        {
+            var path = _archive.ArchiveOutdated(1);
+            var fileName = Path.GetFileName(path);
+            return File("Export/" + fileName, "text/json", fileName);
+        }
         public IActionResult BackUpToJsonAsync()
         {
             var books = _book.Read(null);
             var cards = _libraryCard.Read(null);
-            //foreach (var el in books)
-            //{
-            //    if (Convert.ToInt32(el.Year) <= (DateTime.Now.Year - 10))
-            //    {
-            //        _book.Delete(new BookBindingModel
-            //        {
-            //            Id = el.Id
-            //        });
-            //    }
-            //}
-            //foreach (var el in cards)
-            //{
-            //    if (Convert.ToInt32(el.Year) <= (DateTime.Now.Year - 5))
-            //    {
-            //        _libraryCard.Delete(new LibraryCardBindingModel
-            //        {
-            //            Id = el.Id
-            //        });
-            //    }
-            //}
-            var path = _archive.ArchiveOutdated(1);
-            var fileName = Path.GetFileName(path);
-            return File("Export/" + fileName, "text/json", fileName);
+            return FileBackUpToJsonAsync();           
         }
         public ActionResult PrintLibraryCard(int id)
         {

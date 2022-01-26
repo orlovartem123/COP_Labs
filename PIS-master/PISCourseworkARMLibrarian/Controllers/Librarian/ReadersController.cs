@@ -271,7 +271,7 @@ namespace PISCourseworkARMLibrarian.Controllers
             ViewBag.Books = freeBooks;
             if (bookings == null || !bookings.Any())
             {
-                ModelState.AddModelError("", "У пользователя нет забронированных книг");
+                ModelState.AddModelError("", "У данного читателя нет забронированных книг");
                 return View("Views/Librarian/AddContractBooks.cshtml");
             }
             if ((model.Author != null || model.GenreId != 0 || model.Name != null) && (id == 0 || id == -1))
@@ -711,7 +711,7 @@ namespace PISCourseworkARMLibrarian.Controllers
             ViewBag.Users = users;
             return View("Views/Librarian/ListOfContracts.cshtml");
         }
-        public ActionResult BookSearch(BookBindingModel model, int libraryCard)
+        public ActionResult BookSearchForAllCriteries(BookBindingModel model, int libraryCard)
         {
             ViewBag.Genres = _genre.Read(null);
             List<BookViewModel> freebooks = getBooks(libraryCard);
@@ -837,6 +837,10 @@ namespace PISCourseworkARMLibrarian.Controllers
                 return View("Views/Librarian/AddContractBooks.cshtml");
             }
             return View("Views/Librarian/AddContractBooks.cshtml");
+        }
+        public ActionResult BookSearch(BookBindingModel model, int libraryCard)
+        {
+            return BookSearchForAllCriteries(model, libraryCard);
         }
 
         public List<BookViewModel> getBooks(int libraryCard)

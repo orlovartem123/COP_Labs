@@ -13,6 +13,17 @@ namespace PISBusinessLogic.BusinessLogic
 {
     public class Validation
     {
+        public bool bookPrice(int GenreId, string Percent)
+        {
+            if (GenreId != 0 && Percent != "")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public string addBook(BookBindingModel model)
         {
             if (model.Name == null)
@@ -33,9 +44,10 @@ namespace PISBusinessLogic.BusinessLogic
             }
             return "";
         }
-        public bool bookPrice(int GenreId, string Percent)
+        public bool readersWithOverdue(DateTime date)
         {
-            if (GenreId != 0 && Percent != "")
+            var dat1 = new DateTime();
+            if (date == dat1)
             {
                 return true;
             }
@@ -44,9 +56,21 @@ namespace PISBusinessLogic.BusinessLogic
                 return false;
             }
         }
+
         public bool bookSearch(BookBindingModel model)
         {
             if (model.GenreId == 0 && model.Name == null && model.Author == null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public bool сhangeCommissionAll(string ComissionPercentAll)
+        {
+            if (ComissionPercentAll != null)
             {
                 return true;
             }
@@ -71,18 +95,7 @@ namespace PISBusinessLogic.BusinessLogic
             }
             return "";
         }
-        public bool readersWithOverdue(DateTime date)
-        {
-            var dat1 = new DateTime();
-            if (date == dat1)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        
         public bool сhangeCommission(int Id, string ComissionPercent)
         {
             if (Id != 0 && ComissionPercent != null)
@@ -94,17 +107,7 @@ namespace PISBusinessLogic.BusinessLogic
                 return false;
             }
         }
-        public bool сhangeCommissionAll(string ComissionPercentAll)
-        {
-            if (ComissionPercentAll != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+       
         public bool addSalar(PaymentBindingModel model, int Id)
         {
             if (Id != 0 && model.Date != null)
@@ -116,18 +119,7 @@ namespace PISBusinessLogic.BusinessLogic
                 return false;
             }
         }
-        public bool salaryAll(DateTime date)
-        {
-            var dat1 = new DateTime();
-            if (date == dat1)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        
         public string periodCheck(DateTime date)
         {
             if (date.Date < DateTime.Now.Date)
@@ -153,6 +145,12 @@ namespace PISBusinessLogic.BusinessLogic
 
                 }
             }
+            UserViewCheckPassword(user, userView);
+            return "";
+        }
+        public string UserViewCheckPassword(UserBindingModel user, UserViewModel userView)
+        {
+            EncryptionLogic _enc = new EncryptionLogic();
             if (userView != null)
             {
                 if (userView.Role == Roles.Библиотекарь || userView.Role == Roles.Бухгалтер)
@@ -172,6 +170,18 @@ namespace PISBusinessLogic.BusinessLogic
                 }
             }
             return "";
+        }
+        public bool salaryAll(DateTime date)
+        {
+            var dat1 = new DateTime();
+            if (date == dat1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         public string registrationCheck(UserBindingModel user)
         {
@@ -197,45 +207,6 @@ namespace PISBusinessLogic.BusinessLogic
             }
             return "";
         }
-        public string bookingValidation(BookingBindingModel model)
-        {
-            if (model.DateFrom == new DateTime())
-            {           
-                return "Введите дату начала бронирования";
-            }
-            if (model.DateTo == new DateTime())
-            {           
-                return "Введите дату окончания бронирования";
-            }
-            if (model.DateTo < model.DateFrom)
-            {
-                return "Дата окончания бронирования не может быть меньше даты начала бронирования";
-            }
-            return "";
-        }
-        public bool leadSalary(DateTime month)
-        {
-            var dat1 = new DateTime();
-            if (month == dat1)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        public bool checkLibrarian(int CountReport, int Id)
-        {
-            if (Id != 0 && CountReport >= 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
         public bool listContract(int Id, DateTime month)
         {
             var dat1 = new DateTime();
@@ -260,9 +231,31 @@ namespace PISBusinessLogic.BusinessLogic
                 return false;
             }
         }
-        public bool checkSalary(PaymentBindingModel model, string sum)
+        public string bookingValidation(BookingBindingModel model)
         {
-            if (model.UserId != 0 && sum !=null && model.Date != null)
+            if (model.DateFrom == new DateTime())
+            {           
+                return "Введите дату начала бронирования";
+            }
+            if (model.DateTo == new DateTime())
+            {           
+                return "Введите дату окончания бронирования";
+            }
+            bookingValDateToFrom(model);
+            return "";
+        }
+        public string bookingValDateToFrom(BookingBindingModel model)
+        {
+            if (model.DateTo < model.DateFrom)
+            {
+                return "Дата конца бронирования не может быть меньше даты начала бронирования";
+            }
+            return "";
+        }
+        public bool leadSalary(DateTime month)
+        {
+            var dat1 = new DateTime();
+            if (month == dat1)
             {
                 return true;
             }
@@ -271,5 +264,27 @@ namespace PISBusinessLogic.BusinessLogic
                 return false;
             }
         }
+        public bool checkSalary(PaymentBindingModel model, string sum)
+        {
+            if (model.UserId != 0 && sum != null && model.Date != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public bool checkLibrarian(int CountReport, int Id)
+        {
+            if (Id != 0 && CountReport >= 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }     
     }
 }

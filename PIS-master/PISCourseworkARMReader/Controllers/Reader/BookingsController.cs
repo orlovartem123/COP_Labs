@@ -31,6 +31,11 @@ namespace PISCourseworkARMReader.Controllers.Reader
             _genre = genre;
             validation = new Validation();
         }
+        public IActionResult AddBooking(int id)
+        {
+            ViewBag.BookId = id;
+            return View("Views/Reader/AddBooking.cshtml");
+        }
         public ActionResult ListOfBookings()
         {
             ViewBag.Genres = _genre.Read(null);
@@ -72,23 +77,10 @@ namespace PISCourseworkARMReader.Controllers.Reader
             ViewBag.Books = books;
             return View("Views/Reader/ListOfBookings.cshtml");
         }
-        public IActionResult AddBooking(int id)
-        {
-            ViewBag.BookId = id;
-            return View("Views/Reader/AddBooking.cshtml");
-        }
-
+        
         [HttpPost]
-        public ActionResult AddBooking(BookingBindingModel model)
+        public ActionResult AddBookingLibraryCard(BookingBindingModel model)
         {
-            ViewBag.BookId = model.Id;
-            if (validation.bookingValidation(model) != "")
-            {
-                ViewBag.Booking = _booking.Read(null);
-                ModelState.AddModelError("", validation.bookingValidation(model));
-                return View("Views/Reader/AddBooking.cshtml");
-            }
-
             var libraryCard = _libraryCard.Read(new LibraryCardBindingModel
             {
                 UserId = Program.Reader.Id
@@ -135,6 +127,18 @@ namespace PISCourseworkARMReader.Controllers.Reader
                 _book.UpdateInteres(book.Id);
             }
             return RedirectToAction("ListOfBookings");
+        }
+        [HttpPost]
+        public ActionResult AddBooking(BookingBindingModel model)
+        {
+            ViewBag.BookId = model.Id;
+            if (validation.bookingValidation(model) != "")
+            {
+                ViewBag.Booking = _booking.Read(null);
+                ModelState.AddModelError("", validation.bookingValidation(model));
+                return View("Views/Reader/AddBooking.cshtml");
+            }
+            return AddBookingLibraryCard(model);           
         }
     }
 }
