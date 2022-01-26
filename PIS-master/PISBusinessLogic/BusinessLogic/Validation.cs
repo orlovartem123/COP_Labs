@@ -44,7 +44,7 @@ namespace PISBusinessLogic.BusinessLogic
             }
             return "";
         }
-        public bool readersWithOverdue(DateTime date)
+        public bool readersOd(DateTime date)
         {
             var dat1 = new DateTime();
             if (date == dat1)
@@ -108,7 +108,7 @@ namespace PISBusinessLogic.BusinessLogic
             }
         }
        
-        public bool addSalar(PaymentBindingModel model, int Id)
+        public bool addSalary(PaymentBindingModel model, int Id)
         {
             if (Id != 0 && model.Date != null)
             {

@@ -623,7 +623,7 @@ namespace PISCourseworkARMLibrarian.Controllers
             }
             ViewBag.Contracts = contracts;
             ViewBag.Readers = readers;
-            if (validation.readersWithOverdue(date))
+            if (validation.readersOd(date))
             {
                 ModelState.AddModelError("", "Выберите дату");
                 return View("Views/Librarian/ReadersWithOverdue.cshtml");

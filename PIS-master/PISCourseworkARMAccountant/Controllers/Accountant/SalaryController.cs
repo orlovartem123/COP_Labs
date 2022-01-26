@@ -35,7 +35,7 @@ namespace PISCourseworkARMAccountant.Controllers.Accountant
                     return View("Views/Accountant/Salary.cshtml");
                 }
             }
-            if (validation.addSalar(model, Id))
+            if (validation.addSalary(model, Id))
             {
                 ViewBag.Users = _user.Read(null);
                 var user = _user.Read(new UserBindingModel

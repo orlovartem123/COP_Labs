@@ -18,7 +18,7 @@ namespace PISBusinessLogic.BusinessLogic
         public void SaveBookToWordFile(string fileName, BookViewModel model)
         {
             string title = "Справка о наличии книги № " + model.Id;
-            SaveToWord.CreateDoc(new WordInfo
+            SaveToWord.GenerateDocument(new WordInfo
             {
                 FileName = fileName,
                 Title = title,
@@ -30,7 +30,7 @@ namespace PISBusinessLogic.BusinessLogic
         public void SaveListToWordFile(string fileName)
         {
             string title = "Список библиотекарей ";
-            SaveToWord.CreateDoc(new WordInfo
+            SaveToWord.GenerateDocument(new WordInfo
             {
                 FileName = fileName,
                 Title = title,
@@ -40,7 +40,7 @@ namespace PISBusinessLogic.BusinessLogic
         public void SaveLibraryCardToWordFile(string fileName, LibraryCardViewModel model)
         {
             string title = "Читательский билет №" + model.Id;
-            SaveToWord.CreateDoc(new WordInfo
+            SaveToWord.GenerateDocument(new WordInfo
             {
                 FileName = fileName,
                 Title = title,
@@ -53,7 +53,7 @@ namespace PISBusinessLogic.BusinessLogic
         public void SaveContractReaderToWordFile(string fileName, ContractViewModel model)
         {
             string title = "Договор №  " + model.Id;
-            SaveToWord.CreateDoc(new WordInfo
+            SaveToWord.GenerateDocument(new WordInfo
             {
                 FileName = fileName,
                 Title = title,
@@ -64,7 +64,7 @@ namespace PISBusinessLogic.BusinessLogic
         public void SavePerecrest(dynamic model)
         {
             string title = "Договор №  " + model.Id;
-            SaveToWord.CreateDoc(new WordInfo
+            SaveToWord.GenerateDocument(new WordInfo
             {
                 FileName = $"{title}.docx",
                 Title = title,
@@ -75,7 +75,7 @@ namespace PISBusinessLogic.BusinessLogic
         public void SaveContractToWordFile(string fileName, UserViewModel model)
         {
             string title = "Контракт с  " + model.FIO;
-            SaveToWord.CreateDoc(new WordInfo
+            SaveToWord.GenerateDocument(new WordInfo
             {
                 FileName = fileName,
                 Title = title,

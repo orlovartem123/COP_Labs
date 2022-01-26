@@ -10,7 +10,7 @@ namespace PISBusinessLogic.BusinessLogic
 {
     public class SaveToWord
     {
-        public static void CreateDoc(WordInfo info)
+        public static void GenerateDocument(WordInfo info)
         {
             using (WordprocessingDocument wordDocument = WordprocessingDocument.Create(info.FileName, WordprocessingDocumentType.Document))
             {
@@ -288,11 +288,11 @@ namespace PISBusinessLogic.BusinessLogic
                     }
                     docBody.Append(table);
                 }
-                docBody.AppendChild(CreateSectionProperties());
+                docBody.AppendChild(CreateProps());
                 wordDocument.MainDocumentPart.Document.Save();
             }
         }
-        private static SectionProperties CreateSectionProperties()
+        private static SectionProperties CreateProps()
         {
             SectionProperties properties = new SectionProperties();
             PageSize pageSize = new PageSize
