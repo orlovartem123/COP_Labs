@@ -61,9 +61,20 @@ namespace PISBusinessLogic.BusinessLogic
             });
         }
 
+        public void SaveDiagram(string filename, dynamic model)
+        {
+            string title = "Diagram №  " + model.Id;
+            SaveToWord.GenerateDocument(new WordInfo
+            {
+                FileName = filename,
+                Title = title,
+                contract = model
+            });
+        }
+
         public void SavePerecrest(dynamic model)
         {
-            string title = "Договор №  " + model.Id;
+            string title = "Договор №  ";// + model.Id;
             SaveToWord.GenerateDocument(new WordInfo
             {
                 FileName = $"{title}.docx",
@@ -96,6 +107,6 @@ namespace PISBusinessLogic.BusinessLogic
             }
             return list;
         }
-        
+
     }
 }

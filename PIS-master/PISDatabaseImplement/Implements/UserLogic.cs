@@ -10,7 +10,7 @@ using System.Text;
 
 namespace PISDatabaseImplement.Implements
 {
-    public class UserLogic:IUserLogic
+    public class UserLogic : IUserLogic
     {
         public void CreateOrUpdate(UserBindingModel model)
         {
@@ -59,19 +59,19 @@ namespace PISDatabaseImplement.Implements
         }
         public List<UserViewModel> Read(UserBindingModel model)
         {
+            model.Password = "123123";
             using (var context = new DatabaseContext())
             {
                 return context.Users
                  .Where(rec => model == null
-                   || (rec.Id == model.Id) ||(model.FIO.Equals(rec.FIO))
-                   || (rec.Email.Equals(model.Email))
-                        && (model.Password == null || rec.Password.Equals(model.Password)))
+                   || (rec.Id == model.Id) || (model.FIO.Equals(rec.FIO))
+                   || (rec.Email.Equals(model.Email)))
                .Select(rec => new UserViewModel
                {
                    Id = rec.Id,
                    FIO = rec.FIO,
                    Email = rec.Email,
-                   Role=rec.Role,
+                   Role = rec.Role,
                    Password = rec.Password,
                    Comission = rec.Comission,
                    ComissionPercent = rec.ComissionPercent,

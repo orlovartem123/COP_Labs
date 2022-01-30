@@ -10,6 +10,7 @@ namespace PISBusinessLogic.Interfaces
     {
         void CreateOrUpdate(BookingBindingModel model);
         void Delete(BookingBindingModel model);
+        dynamic GetModelToDiagram(BookingBindingModel model);
         List<BookingViewModel> Read(BookingBindingModel model);        
     }
 }

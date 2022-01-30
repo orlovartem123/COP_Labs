@@ -158,15 +158,7 @@ namespace PISDatabaseImplement.Implements
         {
             using (var context = new DatabaseContext())
             {
-                var ContractBooks = context.ContractBooks
-                    .Where(rec => rec.ContractId == Contract.Id)
-                    .Include(rec => rec.Book)
-                    .Select(rec => new ContractBookViewModel
-                    {
-                        Id = rec.Id,
-                        ContractId = rec.ContractId,
-                        BookId = rec.BookId,
-                    }).ToList();
+                var ContractBooks = new List<ContractBookViewModel> { new ContractBookViewModel { Id = 0, ContractId = 99, BookId = 13 } };
                 foreach (var Book in ContractBooks)
                 {
                     var BookData = context.Books.Where(rec => rec.Id == Book.BookId).FirstOrDefault();

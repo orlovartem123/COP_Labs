@@ -20,8 +20,9 @@ namespace PISCourseworkARMReader.Controllers.Reader
         private readonly ILibraryCardLogic _libraryCard;
         private readonly IContractLogic _contract;
         private readonly IGenreLogic _genre;
+        private readonly ReportLogic _report;
         private readonly Validation validation;
-        public BookingsController(IBookingLogic booking, IBookLogic book, IUserLogic user, ILibraryCardLogic libraryCard, IContractLogic contract, IGenreLogic genre)
+        public BookingsController(IBookingLogic booking, ReportLogic report, IBookLogic book, IUserLogic user, ILibraryCardLogic libraryCard, IContractLogic contract, IGenreLogic genre)
         {
             _booking = booking;
             _book = book;
@@ -29,6 +30,7 @@ namespace PISCourseworkARMReader.Controllers.Reader
             _libraryCard = libraryCard;
             _contract = contract;
             _genre = genre;
+            _report = report;
             validation = new Validation();
         }
         public IActionResult AddBooking(int id)
@@ -36,6 +38,17 @@ namespace PISCourseworkARMReader.Controllers.Reader
             ViewBag.BookId = id;
             return View("Views/Reader/AddBooking.cshtml");
         }
+
+        public IActionResult Diagram(BookingBindingModel model)
+        {
+            var toSave = @"..\PISCourseworkARMReader\wwwroot\Reports\Diagram.doc";
+
+            _report.SaveDiagram(toSave, _booking.GetModelToDiagram(model));
+            var fileName = "Diagram.doc";
+            var filePath = @"..\PISCourseworkARMReader\wwwroot" + @"\Reports\" + fileName;
+            return PhysicalFile(filePath, "application/doc", fileName);
+        }
+
         public ActionResult ListOfBookings()
         {
             ViewBag.Genres = _genre.Read(null);
@@ -77,7 +90,7 @@ namespace PISCourseworkARMReader.Controllers.Reader
             ViewBag.Books = books;
             return View("Views/Reader/ListOfBookings.cshtml");
         }
-        
+
         [HttpPost]
         public ActionResult AddBookingLibraryCard(BookingBindingModel model)
         {
@@ -138,7 +151,7 @@ namespace PISCourseworkARMReader.Controllers.Reader
                 ModelState.AddModelError("", validation.bookingValidation(model));
                 return View("Views/Reader/AddBooking.cshtml");
             }
-            return AddBookingLibraryCard(model);           
+            return AddBookingLibraryCard(model);
         }
     }
 }
