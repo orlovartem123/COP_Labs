@@ -148,8 +148,15 @@ namespace PISDatabaseImplement.Implements
         {
             using (var context = new DatabaseContext())
             {
-                return context.Contracts.Include(rec => rec.LibraryCard).ThenInclude(lc => lc.Reader).Include(l => l.Librarian).Where(rec => model == null
-                         || rec.Id == model.Id || (rec.LibraryCardId == model.LibraryCardId) || (rec.LibrarianId == model.LibrarianId))
+                return context.Contracts
+                    .Include(rec => rec.BookContracts)
+                    .ThenInclude(rec => rec.Book)
+                    .ThenInclude(rec => rec.Genre)
+                    .Include(rec => rec.LibraryCard)
+                    .ThenInclude(lc => lc.Reader)
+                    .Include(l => l.Librarian)
+                    .Where(rec => model == null
+                        || rec.Id == model.Id || (rec.LibraryCardId == model.LibraryCardId) || (rec.LibrarianId == model.LibrarianId))
                 .Select(CreateModel)
             .ToList();
             }

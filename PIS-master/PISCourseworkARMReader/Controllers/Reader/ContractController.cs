@@ -97,6 +97,28 @@ namespace PISCourseworkARMReader.Controllers.Reader
 
         }
         [HttpGet]
+        public ActionResult Dolgi()
+        {
+            var Contracts = _contract.Read(null).Where(rec => rec.Fine > 0).ToList();
+            List<ContractViewModel> contracs = new List<ContractViewModel>();
+            var card = _libraryCard.Read(new LibraryCardBindingModel
+            {
+                UserId = Program.Reader.Id
+            }).FirstOrDefault();
+            foreach (var cont in Contracts)
+            {
+                if (cont.LibraryCardId == card.Id)
+                {
+                    contracs.Add(cont);
+                }
+            }
+            ViewBag.Contracts = contracs;
+            ViewBag.Genres = _genre.Read(null);
+            ViewBag.Users = Program.Reader;
+            return View("Views/Reader/Dolgi.cshtml");
+
+        }
+        [HttpGet]
         public ActionResult ListOfContractsReader()
         {
             ViewBag.Genres = _genre.Read(null);

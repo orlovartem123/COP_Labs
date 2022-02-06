@@ -7,6 +7,7 @@ using PISBusinessLogic.ViewModels;
 using PISDatabaseImplement.Implements;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace PISCourseworkARMReader.Controllers.Reader
@@ -20,7 +21,8 @@ namespace PISCourseworkARMReader.Controllers.Reader
         private readonly IContractLogic _contract;
         private readonly IGenreLogic _genre;
         private readonly Validation validation;
-        public BookingsController(IBookingLogic booking, IBookLogic book, IUserLogic user, ILibraryCardLogic libraryCard, IContractLogic contract, IGenreLogic genre)
+        private readonly ReportLogic _logic;
+        public BookingsController(ReportLogic logic, IBookingLogic booking, IBookLogic book, IUserLogic user, ILibraryCardLogic libraryCard, IContractLogic contract, IGenreLogic genre)
         {
             _booking = booking;
             _book = book;
@@ -28,6 +30,7 @@ namespace PISCourseworkARMReader.Controllers.Reader
             _libraryCard = libraryCard;
             _contract = contract;
             _genre = genre;
+            _logic = logic;
             validation = new Validation();
         }
         public IActionResult AddBooking(int id)
@@ -154,7 +157,8 @@ namespace PISCourseworkARMReader.Controllers.Reader
         [HttpGet]
         public IActionResult Report()
         {
-
+            var filePath = _logic.GetGisto();
+            return PhysicalFile(filePath, "application/pdf", Path.GetFileName(filePath));
         }
     }
 }

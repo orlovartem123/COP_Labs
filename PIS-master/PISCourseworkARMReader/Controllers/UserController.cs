@@ -3,6 +3,7 @@ using PISBusinessLogic.BindingModels;
 using PISBusinessLogic.BusinessLogic;
 using PISBusinessLogic.Enums;
 using PISBusinessLogic.Interfaces;
+using System.IO;
 using System.Linq;
 
 namespace PISCourseworkARMReader.Controllers
@@ -13,12 +14,14 @@ namespace PISCourseworkARMReader.Controllers
         private readonly IBookLogic _bookLogic;
         private readonly EncryptionLogic _enc;
         private readonly Validation validation;
+        private readonly ReportLogic _report;
 
-        public UserController(IUserLogic user, IBookLogic bookLogic, EncryptionLogic enc)
+        public UserController(IUserLogic user, IBookLogic bookLogic, EncryptionLogic enc, ReportLogic report)
         {
             _user = user;
             _enc = enc;
             _bookLogic = bookLogic;
+            _report = report;
             validation = new Validation();
         }
         public IActionResult Login()
@@ -112,6 +115,18 @@ namespace PISCourseworkARMReader.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpPost]
+        public IActionResult CreateTable(CreateTableModel model)
+        {
+            var filePath = _report.GetPerekTable(model.Year);
+            return PhysicalFile(filePath, "application/pdf", Path.GetFileName(filePath));
+        }
+    }
+
+    public class CreateTableModel
+    {
+        public int Year { get; set; }
     }
 }
 
