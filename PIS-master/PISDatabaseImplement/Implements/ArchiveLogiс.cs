@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PISBusinessLogic.HelperModels;
 using PISDatabaseimplements.Models;
 using PISDatabaseImplements;
 using System;
@@ -7,9 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.Serialization.Json;
-using System.Text;
 
 namespace PISDatabaseImplement.Implements
 {

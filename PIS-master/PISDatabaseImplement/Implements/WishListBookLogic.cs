@@ -2,10 +2,8 @@
 using PISBusinessLogic.ViewModels;
 using PISDatabaseimplements.Models;
 using PISDatabaseImplements;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace PISDatabaseImplement.Implements
 {

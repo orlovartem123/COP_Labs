@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PISBusinessLogic.Enums
+﻿namespace PISBusinessLogic.Enums
 {
     public enum  Roles
     {

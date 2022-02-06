@@ -4,7 +4,6 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using PISBusinessLogic.HelperModels;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PISBusinessLogic.BusinessLogic
 {

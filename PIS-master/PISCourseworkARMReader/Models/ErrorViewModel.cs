@@ -1,5 +1,3 @@
-using System;
-
 namespace PISCourseworkARMReader.Models
 {
     public class ErrorViewModel

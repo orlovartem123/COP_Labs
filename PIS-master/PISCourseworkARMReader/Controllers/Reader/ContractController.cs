@@ -1,15 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PISBusinessLogic.BindingModels;
 using PISBusinessLogic.BusinessLogic;
-using PISBusinessLogic.Enums;
-using PISBusinessLogic.HelperModels;
 using PISBusinessLogic.Interfaces;
 using PISBusinessLogic.ViewModels;
+using PISDatabaseImplement.Implements;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace PISCourseworkARMReader.Controllers.Reader
 {
@@ -65,18 +63,7 @@ namespace PISCourseworkARMReader.Controllers.Reader
                         return View("Views/Reader/ChangeDate.cshtml");
                     }
                     TimeSpan period = date - contract.Date;
-                    _contract.CreateOrUpdate(new ContractBindingModel
-                    {
-                        Id = contract.Id,
-                        Date = contract.Date,
-                        DateReturn = date,
-                        Sum = getSum(ConvertModels(contract.ContractBooks), period.Days),
-                        Fine = contract.Fine,
-                        LibraryCardId = contract.LibraryCardId,
-                        ContractStatus = contract.ContractStatus,
-                        LibrarianId = contract.LibrarianId,
-                        ContractBooks = ConvertModels(contract.ContractBooks)
-                    });
+                    ContractLogic.UpdateContractDate(id, date);
                     var contract2 = _contract.Read(new ContractBindingModel
                     {
                         Id = id
@@ -113,7 +100,7 @@ namespace PISCourseworkARMReader.Controllers.Reader
         public ActionResult ListOfContractsReader()
         {
             ViewBag.Genres = _genre.Read(null);
-            return GetListOfContractsReader();        
+            return GetListOfContractsReader();
         }
         public List<ContractBookBindingModel> ConvertModels(List<ContractBookViewModel> list)
         {
@@ -131,7 +118,7 @@ namespace PISCourseworkARMReader.Controllers.Reader
             }
             return list2;
         }
-      
+
         public double getSum(List<ContractBookBindingModel> contractBooks, int period)
         {
             double sum = 0;

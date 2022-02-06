@@ -7,7 +7,6 @@ using PISDatabaseImplements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace PISDatabaseImplement.Implements
 {
@@ -114,6 +113,20 @@ namespace PISDatabaseImplement.Implements
                 }
             }
         }
+
+        public static void UpdateContractDate(int contractId, DateTime newDate)
+        {
+            using (var context = new DatabaseContext())
+            {
+                var elem = context.Contracts.FirstOrDefault(rec => rec.Id == contractId);
+                if (elem != null)
+                {
+                    elem.DateReturn = newDate;
+                    context.SaveChanges();
+                }
+            }
+        }
+
         public void Delete(ContractBindingModel model)
         {
             using (var context = new DatabaseContext())
@@ -135,25 +148,49 @@ namespace PISDatabaseImplement.Implements
         {
             using (var context = new DatabaseContext())
             {
-                return context.Contracts.Where(rec => model == null
-                   || rec.Id == model.Id || (rec.LibraryCardId == model.LibraryCardId) || (rec.LibrarianId == model.LibrarianId))
-                .Select(rec => new ContractViewModel
-                {
-                    Id = rec.Id,
-                    LibraryCardId = rec.LibraryCardId,
-                    ReaderFIO = rec.LibraryCard.Reader.FIO,
-                    LibrarianId = rec.LibrarianId,
-                    LibrarianFIO = rec.Librarian.FIO,
-                    DateReturn = rec.DateReturn,
-                    ContractStatus = rec.ContractStatus,
-                    Fine = rec.Fine,
-                    Sum = rec.Sum,
-                    Date = rec.Date,
-                    ContractBooks = GetContractBookViewModel(rec)
-                })
+                return context.Contracts.Include(rec => rec.LibraryCard).ThenInclude(lc => lc.Reader).Include(l => l.Librarian).Where(rec => model == null
+                         || rec.Id == model.Id || (rec.LibraryCardId == model.LibraryCardId) || (rec.LibrarianId == model.LibrarianId))
+                .Select(CreateModel)
             .ToList();
             }
         }
+
+        private ContractViewModel CreateModel(Contract rec)
+        {
+            var result = new ContractViewModel
+            {
+                Id = rec.Id,
+                LibraryCardId = rec.LibraryCardId,
+                ReaderFIO = rec.LibraryCard.Reader.FIO,
+                LibrarianId = rec.LibrarianId,
+                LibrarianFIO = rec.Librarian.FIO,
+                DateReturn = rec.DateReturn,
+                ContractStatus = rec.ContractStatus,
+                Fine = rec.Fine,
+                Sum = rec.Sum,
+                Date = rec.Date,
+                ContractBooks = GetContractBookViewModel(rec)
+            };
+
+            using (var context = new DatabaseContext())
+            {
+                var days = (result.DateReturn - result.Date).Days;
+
+                int fineDays = 0;
+
+                if (result.DateReturn.Date < DateTime.Now.Date)
+                {
+                    fineDays = (DateTime.Now - result.DateReturn).Days;
+                }
+
+                result.Sum = result.ContractBooks.Sum(x => (context.Genres.FirstOrDefault(genre => genre.Id == x.GenreId).Price * days));
+                if (fineDays > 0)
+                    result.Fine = result.ContractBooks.Sum(x => (context.Genres.FirstOrDefault(genre => genre.Id == x.GenreId).Price * fineDays));
+
+                return result;
+            }
+        }
+
         public static List<ContractBookViewModel> GetContractBookViewModel(Contract Contract)
         {
             using (var context = new DatabaseContext())

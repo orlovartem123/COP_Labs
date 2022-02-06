@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-
-namespace PISDatabaseimplements.Models
+﻿namespace PISDatabaseimplements.Models
 {
     public class ContractBook
     {

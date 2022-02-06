@@ -7,7 +7,6 @@ using PISDatabaseImplements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace PISDatabaseImplement.Implements
 {
@@ -35,9 +34,9 @@ namespace PISDatabaseImplement.Implements
                 element.Author = model.Author;
                 element.Year = model.Year;
                 element.PublishingHouse = model.PublishingHouse;
-                element.GenreId = model.GenreId;
+                element.GenreId = model.GenreId ?? -1;
                 element.Status = model.Status;
-                element.Interes = model.Interes;
+                element.Interes = model.Interes ?? 0;
                 context.SaveChanges();
             }
         }
@@ -62,7 +61,7 @@ namespace PISDatabaseImplement.Implements
         {
             using (var context = new DatabaseContext())
             {
-                return context.Books
+                return context.Books.Include(rec => rec.Genre)
                  .Where(rec => model == null
                    || rec.Id == model.Id || (rec.Name == model.Name && rec.Status == model.Status) || (rec.GenreId == model.GenreId && rec.Status == model.Status) || (rec.Author == model.Author && rec.Status == model.Status))
                .Select(rec => new BookViewModel
@@ -73,7 +72,8 @@ namespace PISDatabaseImplement.Implements
                    PublishingHouse = rec.PublishingHouse,
                    Year = rec.Year,
                    GenreId = rec.GenreId,
-                   Status = rec.Status
+                   Status = rec.Status,
+                   Price = rec.Genre == null ? 0 : rec.Genre.Price
                })
                 .ToList();
             }

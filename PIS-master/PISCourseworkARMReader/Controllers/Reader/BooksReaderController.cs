@@ -2,16 +2,12 @@
 using PISBusinessLogic;
 using PISBusinessLogic.BindingModels;
 using PISBusinessLogic.BusinessLogic;
-using PISBusinessLogic.Enums;
-using PISBusinessLogic.HelperModels;
 using PISBusinessLogic.Interfaces;
 using PISBusinessLogic.ViewModels;
 using PISDatabaseImplement.Implements;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace PISCourseworkARMReader.Controllers.Reader
 {
@@ -55,10 +51,7 @@ namespace PISCourseworkARMReader.Controllers.Reader
         public ActionResult ListOfBooksReader(BookBindingModel model)
         {
             ViewBag.Genres = _genre.Read(null);
-            ViewBag.Books = _book.Read(new BookBindingModel
-            {
-                Status = Status.Свободна
-            });
+            ViewBag.Books = _book.Read(null).ToList();
             return BookSearch(model);
 
         }
@@ -74,53 +67,54 @@ namespace PISCourseworkARMReader.Controllers.Reader
                 UserId = Program.Reader.Id
             }).FirstOrDefault();
             List<BookViewModel> freeBooks = new List<BookViewModel>();
-            foreach (var booking in Bookings)
-            {
-                var b = _book.Read(new BookBindingModel
-                {
-                    Id = booking.BookId
-                }).FirstOrDefault();
-                if (booking.DateTo < DateTime.Now)
-                {
-                    _book.CreateOrUpdate(new BookBindingModel
-                    {
-                        Id = b.Id,
-                        Name = b.Name,
-                        PublishingHouse = b.PublishingHouse,
-                        Author = b.Author,
-                        Year = b.Year,
-                        GenreId = b.GenreId,
-                        Status = Status.Свободна
-                    });
-                }
-                if (card != null && booking.LibraryCardId == card.Id)
-                {
-                    bookings.Add(booking);
-                }
-            }
-            foreach (var book in freebooks)
-            {
-                foreach (var b in bookings)
-                {
-                    if (book.Id == b.BookId)
-                    {
-                        books.Add(book);
-                    }
-                }
-            }
+            //foreach (var booking in Bookings)
+            //{
+            //    var b = _book.Read(new BookBindingModel
+            //    {
+            //        Id = booking.BookId
+            //    }).FirstOrDefault();
+            //    if (booking.DateTo < DateTime.Now)
+            //    {
+            //        _book.CreateOrUpdate(new BookBindingModel
+            //        {
+            //            Id = b.Id,
+            //            Name = b.Name,
+            //            PublishingHouse = b.PublishingHouse,
+            //            Author = b.Author,
+            //            Year = b.Year,
+            //            GenreId = b.GenreId,
+            //            Status = Status.Свободна
+            //        });
+            //    }
+            //    if (card != null && booking.LibraryCardId == card.Id)
+            //    {
+            //        bookings.Add(booking);
+            //    }
+            //}
+            //foreach (var book in freebooks)
+            //{
+            //    foreach (var b in bookings)
+            //    {
+            //        if (book.Id == b.BookId)
+            //        {
+            //            books.Add(book);
+            //        }
+            //    }
+            //}
             freeBooks = freebooks;
-            foreach (var b in books)
-            {
-                freeBooks.Remove(b);
-            }
+            //foreach (var b in books)
+            //{
+            //    freeBooks.Remove(b);
+            //}
+            //freeBooks = freeBooks.Where(x => x.Status != Status.Забронирована).ToList();
             ViewBag.Books = freeBooks;
             List<BookViewModel> removebooks = new List<BookViewModel>();
             //по названию
-            if (model.Name != null && model.GenreId == 0 && model.Author == null)
+            if (model.Name != null && model.GenreId == null && model.Author == null)
             {
                 foreach (var el in freeBooks)
                 {
-                    if (el.Name != model.Name)
+                    if (!el.Name.Contains(model.Name))
                     {
                         removebooks.Add(el);
                     }
@@ -133,7 +127,7 @@ namespace PISCourseworkARMReader.Controllers.Reader
                 return View("Views/Reader/ListOfBooksReader.cshtml");
             }
             //по жанру
-            if (model.GenreId != 0 && model.Name == null && model.Author == null)
+            if (model.GenreId != null && model.Name == null && model.Author == null)
             {
                 foreach (var el in freeBooks)
                 {
@@ -150,11 +144,11 @@ namespace PISCourseworkARMReader.Controllers.Reader
                 return View("Views/Reader/ListOfBooksReader.cshtml");
             }
             //по автору
-            if (model.GenreId == 0 && model.Name == null && model.Author != null)
+            if (model.GenreId == null && model.Name == null && model.Author != null)
             {
                 foreach (var el in freeBooks)
                 {
-                    if (el.Author != model.Author)
+                    if (!el.Author.Contains(model.Author))
                     {
                         removebooks.Add(el);
                     }
@@ -167,11 +161,11 @@ namespace PISCourseworkARMReader.Controllers.Reader
                 return View("Views/Reader/ListOfBooksReader.cshtml");
             }
             //по жанру и названию
-            if (model.GenreId != 0 && model.Name != null && model.Author == null)
+            if (model.GenreId != null && model.Name != null && model.Author == null)
             {
                 foreach (var el in freeBooks)
                 {
-                    if (el.GenreId != model.GenreId || el.Name != model.Name)
+                    if (el.GenreId != model.GenreId || !el.Name.Contains(model.Name))
                     {
                         removebooks.Add(el);
                     }
@@ -184,11 +178,11 @@ namespace PISCourseworkARMReader.Controllers.Reader
                 return View("Views/Reader/ListOfBooksReader.cshtml");
             }
             // по всем трем
-            if (model.GenreId != 0 && model.Name != null && model.Author != null)
+            if (model.GenreId != null && model.Name != null && model.Author != null)
             {
                 foreach (var el in freeBooks)
                 {
-                    if (el.GenreId != model.GenreId || el.Name != model.Name || el.Author != model.Author)
+                    if (el.GenreId != model.GenreId || !el.Name.Contains(model.Name) || !el.Author.Contains(model.Author))
                     {
                         removebooks.Add(el);
                     }
@@ -201,11 +195,11 @@ namespace PISCourseworkARMReader.Controllers.Reader
                 return View("Views/Reader/ListOfBooksReader.cshtml");
             }
             //по жанру и автору
-            if (model.GenreId != 0 && model.Name == null && model.Author != null)
+            if (model.GenreId != null && model.Name == null && model.Author != null)
             {
                 foreach (var el in freeBooks)
                 {
-                    if (el.GenreId != model.GenreId || el.Author != model.Author)
+                    if (el.GenreId != model.GenreId || !el.Author.Contains(model.Author))
                     {
                         removebooks.Add(el);
                     }
@@ -218,11 +212,11 @@ namespace PISCourseworkARMReader.Controllers.Reader
                 return View("Views/Reader/ListOfBooksReader.cshtml");
             }
             //по автору и названию
-            if (model.GenreId == 0 && model.Name != null && model.Author != null)
+            if (model.GenreId == null && model.Name != null && model.Author != null)
             {
                 foreach (var el in freeBooks)
                 {
-                    if (el.Name != model.Name || el.Author != model.Author)
+                    if (!el.Name.Contains(model.Name) || !el.Author.Contains(model.Author))
                     {
                         removebooks.Add(el);
                     }

@@ -1,15 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PISBusinessLogic.BindingModels;
 using PISBusinessLogic.BusinessLogic;
-using PISBusinessLogic.Enums;
-using PISBusinessLogic.HelperModels;
 using PISBusinessLogic.Interfaces;
 using PISBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace PISCoursework.Controllers.Reader
 {

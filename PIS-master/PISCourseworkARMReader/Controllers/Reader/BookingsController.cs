@@ -8,7 +8,6 @@ using PISDatabaseImplement.Implements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace PISCourseworkARMReader.Controllers.Reader
 {
@@ -34,6 +33,15 @@ namespace PISCourseworkARMReader.Controllers.Reader
         public IActionResult AddBooking(int id)
         {
             ViewBag.BookId = id;
+
+            var book = _book.Read(null).FirstOrDefault(rec => rec.Id == id);
+            if (book != null && book.Status != Status.Свободна)
+            {
+                WishListBookLogic.AddBookToWishList(book.Id, Program.Reader.Id);
+                _book.UpdateInteres(book.Id);
+                return View("Views/Reader/ListWishListBooks.cshtml");
+            }
+
             return View("Views/Reader/AddBooking.cshtml");
         }
         public ActionResult ListOfBookings()
@@ -77,7 +85,7 @@ namespace PISCourseworkARMReader.Controllers.Reader
             ViewBag.Books = books;
             return View("Views/Reader/ListOfBookings.cshtml");
         }
-        
+
         [HttpPost]
         public ActionResult AddBookingLibraryCard(BookingBindingModel model)
         {
@@ -138,7 +146,15 @@ namespace PISCourseworkARMReader.Controllers.Reader
                 ModelState.AddModelError("", validation.bookingValidation(model));
                 return View("Views/Reader/AddBooking.cshtml");
             }
-            return AddBookingLibraryCard(model);           
+
+
+            return AddBookingLibraryCard(model);
+        }
+
+        [HttpGet]
+        public IActionResult Report()
+        {
+
         }
     }
 }

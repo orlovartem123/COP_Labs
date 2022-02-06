@@ -2,7 +2,6 @@
 using PISBusinessLogic;
 using PISBusinessLogic.BindingModels;
 using PISBusinessLogic.BusinessLogic;
-using PISBusinessLogic.HelperModels;
 using PISBusinessLogic.Interfaces;
 using PISBusinessLogic.ViewModels;
 using PISCoursework.Models;
@@ -11,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace PISCoursework.Controllers.Librarian
 {

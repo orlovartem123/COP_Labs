@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PISBusinessLogic.BindingModels;
 using PISBusinessLogic.Interfaces;
 using PISBusinessLogic.Enums;
 using PISBusinessLogic.ViewModels;
-using PISBusinessLogic.HelperModels;
-using System.IO;
 using PISBusinessLogic.BusinessLogic;
 
 namespace PISCourseworkARMAccountant.Controllers

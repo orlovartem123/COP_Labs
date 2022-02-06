@@ -1,5 +1,3 @@
-using System;
-
 namespace PISCourseworkARMAccountant.Models
 {
     public class ErrorViewModel

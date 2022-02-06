@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PISDatabaseimplements.Models
+﻿namespace PISDatabaseimplements.Models
 {
     public class WishListBook
     {
