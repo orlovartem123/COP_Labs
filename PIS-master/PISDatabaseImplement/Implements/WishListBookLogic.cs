@@ -34,12 +34,15 @@ namespace PISDatabaseImplement.Implements
         {
             using (var db = new DatabaseContext())
             {
-                var model = new WishListBook
+                var model = db.WishListBooks.FirstOrDefault(rec => rec.UserId == userId && rec.BookId == bookId);
+                if (model != null)
+                    return;
+                var model2 = new WishListBook
                 {
                     UserId = userId,
                     BookId = bookId
                 };
-                db.WishListBooks.Add(model);
+                db.WishListBooks.Add(model2);
                 db.SaveChanges();
             }
         }

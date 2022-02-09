@@ -42,7 +42,7 @@ namespace PISCourseworkARMReader.Controllers.Reader
             {
                 WishListBookLogic.AddBookToWishList(book.Id, Program.Reader.Id);
                 _book.UpdateInteres(book.Id);
-                return View("Views/Reader/ListWishListBooks.cshtml");
+                return View("Views/Reader/ListWishListBooks.cshtml", WishListBookLogic.GetWishListBookViewModels(Program.Reader.Id));
             }
 
             return View("Views/Reader/AddBooking.cshtml");
